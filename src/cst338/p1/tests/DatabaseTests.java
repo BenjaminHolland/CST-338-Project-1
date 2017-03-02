@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import cst338.p1.CourseRecord;
 import cst338.p1.Database;
@@ -15,7 +17,7 @@ import cst338.p1.StudentRecord;
 import cst338.p1.TeacherRecord;
 
 public class DatabaseTests {
-
+  @Rule public ExpectedException thrown=ExpectedException.none();
   @Test
   public void createStudent_nominal() throws EntityDuplicateException {
     Database db = new Database();
@@ -27,8 +29,11 @@ public class DatabaseTests {
   }
 
   @Test
-  public void createStudent_duplicate() {
-    fail("Not yet implemented");
+  public void createStudent_duplicate() throws EntityDuplicateException {
+    thrown.expect(EntityDuplicateException.class);
+    Database db=new Database();
+    db.createStudent(new StudentRecord(1000,"Ogger Blog"));
+    db.createStudent(new StudentRecord(1000,"Booger Ooger"));
   }
 
   @Test
