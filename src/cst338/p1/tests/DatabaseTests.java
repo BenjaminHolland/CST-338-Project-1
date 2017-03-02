@@ -68,7 +68,7 @@ public class DatabaseTests {
     // Ensure class still exists.
     db.getCourseById(stdCourseRecord.getId());
     // Ensure teacher is no longer assigned to the class.
-    assertEquals(0, db.getTeachersForCourse(stdCourseRecord.getId()));
+    assertEquals(0, db.getTeachersForCourse(stdCourseRecord.getId()).count());
  
   }
 @Test
