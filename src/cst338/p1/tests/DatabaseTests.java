@@ -94,6 +94,19 @@ public class DatabaseTests {
   public void linkStudentCourse_missingCourse(){
    fail("Not yet implemented."); 
   }
+  private void linkTeacherCourse_nominal_core(Database db) throws EntityNotFoundException,EntityDuplicateException{
+    db.createTeacher(new TeacherRecord(1000,"Hort Mra","hmra@rock.edu","000-00-0498"));
+    db.createCourse(new CourseRecord(2000,"HIS-2000 Mastadon Hunting",30,"CAVE-99"));
+    db.linkStudentCourse(1000, 2000);
+    List<StudentRecord> courseStudents=db.getStudentsForCourse(2000).collect(Collectors.toList());
+    assertEquals(1, courseStudents.size());
+    assertEquals(Integer.valueOf(1000), courseStudents.get(0).getId());
+    
+    List<CourseRecord> studentCourses=db.getCoursesForStudent(1000).collect(Collectors.toList());
+    assertEquals(1,studentCourses.size());
+    assertEquals(Integer.valueOf(2000), studentCourses.get(0).getId());
+  
+  }
   @Test
   public void linkTeacherCourse_nominal(){
    
