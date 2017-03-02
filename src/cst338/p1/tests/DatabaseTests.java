@@ -159,13 +159,21 @@ public class DatabaseTests {
     }
 
   @Test
-  public void linkTeacherCourse_missingTeacher() {
-    fail("Not yet implemented.");
+  public void linkTeacherCourse_missingTeacher() throws EntityDuplicateException, EntityNotFoundException {
+    Database db=new Database();
+    db.createCourse(new CourseRecord(1000,"CST-1000 Introduction to 4th-Dimensional Computers",10,"EXT-5"));
+    thrown.expect(EntityNotFoundException.class);
+    db.linkTeacherCourse(2000, 1000);
+    
+
   }
 
   @Test
-  public void linkTeacherCourse_missingCourse() {
-    fail("Not yet implemented.");
+  public void linkTeacherCourse_missingCourse() throws EntityDuplicateException, EntityNotFoundException {
+    Database db=new Database();
+    db.createTeacher(new TeacherRecord(1000,"Yopopplize Baboporingo","ybaboporingo@where.edu","998-00-1882"));
+    thrown.expect(EntityNotFoundException.class);
+    db.linkTeacherCourse(2000, 1000);
   }
 
 
