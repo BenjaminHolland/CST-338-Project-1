@@ -119,7 +119,7 @@ public class Database {
   public void createTeacher(TeacherRecord teacher) throws EntityDuplicateException {
     ensureNonExistantTeacher(teacher.getId());
     teachers.put(teacher.getId(), teacher);
-
+    linkTeacherCourse.put(teacher.getId(), new ArrayList<>());
   }
 
   /**
@@ -170,6 +170,7 @@ public class Database {
   public void createStudent(StudentRecord record) throws EntityDuplicateException {
     ensureNonExistantStudent(record.getId());
     students.put(record.getId(), record);
+    linkStudentCourse.put(record.getId(), new ArrayList<>());
   }
 
   /**
@@ -179,12 +180,13 @@ public class Database {
    * @throws EntityNotFoundException If there is no student with a matching id.
    */
   public void deleteStudent(Integer id) throws EntityNotFoundException {
+   
     StudentRecord record = getStudentById(id);
     // Remove record;
     students.remove((Object) record.getId());
 
     // Remove references to courses.
-    linkStudentCourse.remove((Object) record.getId());
+    linkStudentCourse.remove(record.getId());
   }
 
   /**
@@ -197,7 +199,7 @@ public class Database {
   public StudentRecord getStudentById(Integer id) throws EntityNotFoundException {
     ensureExistantStudent(id);
     return students.get(id);
-
+    
   }
 
   /**
@@ -229,9 +231,13 @@ public class Database {
   public void deleteCourse(Integer id) throws EntityNotFoundException {
     CourseRecord record = getCourseById(id);
     courses.remove(record.getId());
+    
+    //Remove references to this course from students schedules.
     for (List<Integer> classList : linkStudentCourse.values()) {
       classList.remove((Object) record.getId());
     }
+    
+    //Remove references to this course from teachers schedules.
     for (List<Integer> classList : linkTeacherCourse.values()) {
       classList.remove((Object) record.getId());
     }
@@ -264,6 +270,7 @@ public class Database {
     ensureExistantCourse(courseId);
     ensureExistantTeacher(teacherId);
     ensureNonExistantTeacherCourseLinnke(teacherId, courseId);
+    
   }
 
   /**
