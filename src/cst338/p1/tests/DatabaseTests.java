@@ -388,7 +388,7 @@ public class DatabaseTests {
     //Get list of teachers with matching emails.
     List<TeacherRecord> results=db.getTeachersByEmail(stdTeacherRecord.getEmail()).collect(Collectors.toList());
     //Ensure there is only one teacher returned.
-    assertEquals(0,results.size());
+    assertEquals(1,results.size());
     //Ensure the one teacher returned has the correct email.
     assertEquals(stdTeacherRecord.getEmail(),results.get(0).getEmail());
   }
@@ -416,6 +416,10 @@ public class DatabaseTests {
     //Get list of teachers with emails matching the first email.
     List<TeacherRecord> results=db.getTeachersByEmail(stdTeacherRecord.getEmail()).collect(Collectors.toList());
     //Ensure there are two teachers returned.
+    assertEquals(2, results.size());
     //Ensure the emails of those teacher match.
+    assertTrue(results.get(0).getEmail().equals(results.get(1).getEmail()));
+    assertTrue(results.get(0)!=results.get(1)); //Reference Equals.
+    assertTrue(results.get(0).getEmail().equals(stdTeacherRecord.getEmail())); //Transitive Equality.
   }
 }

@@ -153,8 +153,7 @@ public class Database {
    * @return The first teacher with a matching email in the table.
    * @throws EntityNotFoundException If there is no teacher with a matching email.
    */
-  public Stream<TeacherRecord> getTeachersByEmail(final String email)
-       {
+  public Stream<TeacherRecord> getTeachersByEmail(final String email) {
     return getTeacherStream().filter(record -> record.getEmail().equals(email));
   }
 
@@ -394,10 +393,31 @@ public class Database {
   public void importData(String path) throws IOException {
     DataFile newData = DataFile.load(path);
 
-    // If we were cool and allowed to use packages, we could do these the things in parallel.
-    newData.getStudentStream().forEach(cur -> students.put(cur.getId(), cur));
-    newData.getClassStream().forEach(cur -> courses.put(cur.getId(), cur));
-    newData.getTeacherStream().forEach(cur -> teachers.put(cur.getId(), cur));
+    // If this doesn't end up working, we could easily collect each stream and do record insertion
+    // with a normal for/foreach loop, but that's not nearly as fun. It may also just be more
+    // idomatic Java to do this.
+
+    newData.getStudentStream().forEach(cur -> {
+      try {
+        this.createStudent(cur);
+      } catch (EntityDuplicateException ex) {
+        throw new RuntimeException(ex);
+      }
+    });
+    newData.getClassStream().forEach(cur -> {
+      try {
+        this.createCourse(cur);
+      } catch (EntityDuplicateException ex) {
+        throw new RuntimeException(ex);
+      }
+    });
+    newData.getTeacherStream().forEach(cur -> {
+      try {
+        this.createTeacher(cur);
+      } catch (EntityDuplicateException ex) {
+        throw new RuntimeException(ex);
+      }
+    });
 
   }
 }
