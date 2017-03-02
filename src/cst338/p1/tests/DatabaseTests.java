@@ -53,22 +53,32 @@ public class DatabaseTests {
     db.deleteStudent(stdStudentRecord.getId());
   }
 
-  public void deleteTeacher_nominal() throws EntityNotFoundException {
+  public void deleteTeacher_nominal() throws EntityNotFoundException, EntityDuplicateException {
+    Database db=new Database();
     // Add Teacher.
+    db.createTeacher(stdTeacherRecord);
     // Add Class.
+    db.createCourse(stdCourseRecord);
     // Link teacher to class.
+    db.linkTeacherCourse(stdTeacherRecord.getId(),stdCourseRecord.getId());
     // Delete teacher.
+    db.deleteTeacher(stdTeacherRecord.getId());
     // Ensure teacher no longer exists.
+    assertEquals(0, db.getTeacherStream().count());
     // Ensure class still exists.
-
+    db.getCourseById(stdCourseRecord.getId());
     // Ensure teacher is no longer assigned to the class.
-    fail("Not Implemented");
+    assertEquals(0, db.getTeachersForCourse(stdCourseRecord.getId()));
+ 
   }
 
   public void deleteTeacher_missing() throws EntityNotFoundException {
     // Expect an EntityNotFound Exception.
+    thrown.expect(EntityNotFoundException.class);
+    Database db=new Database();
     // Call deleteTeacher
-    fail("Not Implemented");
+    db.deleteTeacher(stdTeacherRecord.getId());
+   
   }
 
   public void deleteCourse_nominal() throws EntityNotFoundException {
