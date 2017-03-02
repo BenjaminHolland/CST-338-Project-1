@@ -25,16 +25,24 @@ public class DatabaseTests {
   private final CourseRecord stdCourseRecord =
       new CourseRecord(3000, "CLS-3000 Introduction To Subject", 10, "ROOM 0");
 
-  public void deleteStudent_nominal() throws EntityNotFoundException {
+  public void deleteStudent_nominal() throws EntityNotFoundException, EntityDuplicateException {
+    Database db=new Database();
+    
     // Add Student
+    db.createStudent(stdStudentRecord);
     // Add Class
+    db.createCourse(stdCourseRecord);
     // Link Student to Class
+    db.linkStudentCourse(stdStudentRecord.getId(), stdCourseRecord.getId());
     // Delete student
+    db.deleteStudent(stdStudentRecord.getId());
     // Ensure student no longer exists.
+    assertEquals(0,db.getStudentStream().collect(Collectors.counting()).intValue());
     // Ensure class still exists.
+    db.getCourseById(stdCourseRecord.getId());
     // Ensure student is no longer in class.
+    assertEquals(0,db.getStudentsForCourse(stdCourseRecord.getId()).count());
 
-    fail("Not Implemented");
   }
 
   public void deleteStudent_missing() throws EntityNotFoundException {
