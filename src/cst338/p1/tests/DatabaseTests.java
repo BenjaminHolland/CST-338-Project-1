@@ -141,9 +141,14 @@ public class DatabaseTests {
   }
 
   @Test
-  public void linkTeacherCourse_duplicate() {
-    fail("Not yet implemented.");
-  }
+  public void linkTeacherCourse_duplicate() throws EntityDuplicateException, EntityNotFoundException {
+    Database db=new Database();
+    db.createTeacher(new TeacherRecord(1000, "Hort Mra", "hmra@rock.edu", "000-00-0498"));
+    db.createCourse(new CourseRecord(2000, "HIS-2000 Mastadon Hunting", 30, "CAVE-99"));
+    db.linkTeacherCourse(1000, 2000);
+    thrown.expect(EntityDuplicateException.class);
+    db.linkTeacherCourse(1000,2000);
+    }
 
   @Test
   public void linkTeacherCourse_missingTeacher() {
