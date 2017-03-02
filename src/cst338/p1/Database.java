@@ -257,6 +257,7 @@ public class Database {
   public Stream<StudentRecord> getStudentsForCourse(Integer courseId){
     return null;
   }
+  
   /**
    * Iterate over courses. 
    * @return A stream of course records.

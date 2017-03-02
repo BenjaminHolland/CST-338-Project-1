@@ -10,6 +10,7 @@ import org.junit.Test;
 import cst338.p1.CourseRecord;
 import cst338.p1.Database;
 import cst338.p1.EntityDuplicateException;
+import cst338.p1.EntityNotFoundException;
 import cst338.p1.StudentRecord;
 import cst338.p1.TeacherRecord;
 
@@ -63,8 +64,19 @@ public class DatabaseTests {
     fail("Not yet implemented");
   }
   @Test
-  public void linkStudentCourse_nominal(){
-   fail("Not yet implemented."); 
+  public void linkStudentCourse_nominal() throws EntityDuplicateException, EntityNotFoundException{
+    Database db=new Database();
+    db.createStudent(new StudentRecord(1000,"Yar Ogg"));
+    db.createCourse(new CourseRecord(2000,"HIS-2000 Mastadon Hunting",30,"CAVE-99"));
+    db.linkStudentCourse(1000, 2000);
+    List<StudentRecord> courseStudents=db.getStudentsForCourse(2000).collect(Collectors.toList());
+    assertEquals(1, courseStudents.size());
+    assertEquals(Integer.valueOf(1000), courseStudents.get(0).getId());
+    
+    List<CourseRecord> studentCourses=db.getCoursesForStudent(1000).collect(Collectors.toList());
+    assertEquals(1,studentCourses.size());
+    assertEquals(Integer.valueOf(2000), studentCourses.get(0).getId());
+   
   }
   @Test
   public void linkStudentCourse_duplicate(){
@@ -81,6 +93,7 @@ public class DatabaseTests {
   }
   @Test
   public void linkTeacherCourse_nominal(){
+   
    fail("Not yet implemented."); 
   }
   @Test
