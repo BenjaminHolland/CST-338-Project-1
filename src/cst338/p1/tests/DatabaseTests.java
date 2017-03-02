@@ -49,13 +49,12 @@ public class DatabaseTests {
   }
 
   @Test
-  public void createTeacher_duplicateId() {
-    fail("Not yet implemented");
-  }
-
-  @Test
-  public void createTeacher_duplicateEmail() {
-    fail("Not yet implemented");
+  public void createTeacher_duplicateId() throws EntityDuplicateException {
+    Database db=new Database();
+    thrown.expect(EntityDuplicateException.class);
+    db.createTeacher(new TeacherRecord(1000,"Teachmaster 5000","tm5000@robots.edu","927-92-0019"));
+    db.createTeacher(new TeacherRecord(1000,"Teachmaster 5000","tm5000@robots.edu","927-92-0019"));
+    
   }
 
   @Test
