@@ -283,8 +283,15 @@ public class Database {
         .map(entry->teachers.get(entry.getKey()))
         .filter(record->record!=null);
   }
-  public Stream<StudentRecord> getStudentsForCourse(Integer courseId){
-    return null;
+  public Stream<StudentRecord> getStudentsForCourse(Integer courseId) throws EntityNotFoundException{
+    ensureExistantCourse(courseId);
+    return linkStudentCourse.entrySet()
+        .stream()
+        .filter(entry->entry.getValue().contains(courseId))
+        .map(entry->students.get(entry.getKey()))
+        .filter(record->record!=null);
+    
+    
   }
   
   /**
