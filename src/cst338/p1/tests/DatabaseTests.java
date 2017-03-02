@@ -17,31 +17,76 @@ import cst338.p1.StudentRecord;
 import cst338.p1.TeacherRecord;
 
 public class DatabaseTests {
-  @Rule public ExpectedException thrown=ExpectedException.none();
-  private final TeacherRecord stdTeacherRecord=new TeacherRecord(1000,"A. Teacher","ateacher@school.edu","123-45-6789");
-  private final StudentRecord stdStudentRecord=new StudentRecord(2000,"A. Student");
-  private final CourseRecord stdCourseRecord=new CourseRecord(3000,"CLS-3000 Introduction To Subject",10,"ROOM 0");
-  public void deleteStudent_nominal() throws EntityNotFoundException{
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+  private final TeacherRecord stdTeacherRecord =
+      new TeacherRecord(1000, "A. Teacher", "ateacher@school.edu", "123-45-6789");
+  private final StudentRecord stdStudentRecord = new StudentRecord(2000, "A. Student");
+  private final CourseRecord stdCourseRecord =
+      new CourseRecord(3000, "CLS-3000 Introduction To Subject", 10, "ROOM 0");
+
+  public void deleteStudent_nominal() throws EntityNotFoundException {
+    // Add Student
+    // Add Class
+    // Link Student to Class
+    // Delete student
+    // Ensure student no longer exists.
+    // Ensure class still exists.
+    // Ensure student is no longer in class.
+
     fail("Not Implemented");
   }
-  public void deleteStudent_missing() throws EntityNotFoundException{
+
+  public void deleteStudent_missing() throws EntityNotFoundException {
+    // Expect an EntityNotFound Exception.
+    // Call Delete student.
+
     fail("Not Implemented");
   }
-  public void deleteTeacher_nominal() throws EntityNotFoundException{
+
+  public void deleteTeacher_nominal() throws EntityNotFoundException {
+    // Add Teacher.
+    // Add Class.
+    // Link teacher to class.
+    // Delete teacher.
+    // Ensure teacher no longer exists.
+    // Ensure class still exists.
+
+    // Ensure teacher is no longer assigned to the class.
     fail("Not Implemented");
   }
-  public void deleteTeacher_missing() throws EntityNotFoundException{
+
+  public void deleteTeacher_missing() throws EntityNotFoundException {
+    // Expect an EntityNotFound Exception.
+    // Call deleteTeacher
     fail("Not Implemented");
   }
-  public void deleteCourse_nominal() throws EntityNotFoundException{
+
+  public void deleteCourse_nominal() throws EntityNotFoundException {
+    // Add Teacher.
+    // Add Student.
+    // Add Course.
+    // Link Teacher to Course.
+    // Link Student to Course.
+    // Delete course.
+    // Ensure course no longer exists.
+    // Ensure teacher still exists.
+    // Ensure student still exists.
+    // Ensure teacher is no longer assigned to course.
+    // Ensure student is no longer in course.
+
     fail("Not Implemented.");
   }
-  public void deleteCourse_missing() throws EntityNotFoundException{
+
+  public void deleteCourse_missing() throws EntityNotFoundException {
+    //Expect EntityNotFoundException
+    //Call deleteCourse
+    
     fail("Not Implemented.");
   }
-  
-  
-  
+
+
+
   @Test
   public void createStudent_nominal() throws EntityDuplicateException {
     Database db = new Database();
@@ -55,9 +100,9 @@ public class DatabaseTests {
   @Test
   public void createStudent_duplicate() throws EntityDuplicateException {
     thrown.expect(EntityDuplicateException.class);
-    Database db=new Database();
-    db.createStudent(new StudentRecord(1000,"Ogger Blog"));
-    db.createStudent(new StudentRecord(1000,"Booger Ooger"));
+    Database db = new Database();
+    db.createStudent(new StudentRecord(1000, "Ogger Blog"));
+    db.createStudent(new StudentRecord(1000, "Booger Ooger"));
   }
 
   @Test
@@ -74,11 +119,13 @@ public class DatabaseTests {
 
   @Test
   public void createTeacher_duplicate() throws EntityDuplicateException {
-    Database db=new Database();
+    Database db = new Database();
     thrown.expect(EntityDuplicateException.class);
-    db.createTeacher(new TeacherRecord(1000,"Teachmaster 5000","tm5000@robots.edu","927-92-0019"));
-    db.createTeacher(new TeacherRecord(1000,"Teachmaster 5000","tm5000@robots.edu","927-92-0019"));
-    
+    db.createTeacher(
+        new TeacherRecord(1000, "Teachmaster 5000", "tm5000@robots.edu", "927-92-0019"));
+    db.createTeacher(
+        new TeacherRecord(1000, "Teachmaster 5000", "tm5000@robots.edu", "927-92-0019"));
+
   }
 
   @Test
@@ -95,11 +142,11 @@ public class DatabaseTests {
 
   @Test
   public void createCourse_duplicate() throws EntityDuplicateException {
-    Database db=new Database();
+    Database db = new Database();
     thrown.expect(EntityDuplicateException.class);
-    db.createCourse(new CourseRecord(1000,"ECO-1000 Introduction to Fish",30,"OCEAN-10"));
-    db.createCourse(new CourseRecord(1000,"ECO-1000 Introduction to Fish",30,"OCEAN-10"));
-   
+    db.createCourse(new CourseRecord(1000, "ECO-1000 Introduction to Fish", 30, "OCEAN-10"));
+    db.createCourse(new CourseRecord(1000, "ECO-1000 Introduction to Fish", 30, "OCEAN-10"));
+
   }
 
   private void linkStudentCourse_nominal_core(Database db)
@@ -124,8 +171,9 @@ public class DatabaseTests {
   }
 
   @Test
-  public void linkStudentCourse_duplicate() throws EntityDuplicateException, EntityNotFoundException {
-    Database db=new Database();
+  public void linkStudentCourse_duplicate()
+      throws EntityDuplicateException, EntityNotFoundException {
+    Database db = new Database();
     db.createStudent(new StudentRecord(1000, "Yar Ogg"));
     db.createCourse(new CourseRecord(2000, "HIS-2000 Mastadon Hunting", 30, "CAVE-99"));
     db.linkStudentCourse(1000, 2000);
@@ -134,21 +182,24 @@ public class DatabaseTests {
   }
 
   @Test
-  public void linkStudentCourse_missingStudent() throws EntityDuplicateException, EntityNotFoundException {
-    Database db=new Database();
-    db.createCourse(new CourseRecord(1000,"CST-1000 Introduction to 4th-Dimensional Computers",10,"EXT-5"));
+  public void linkStudentCourse_missingStudent()
+      throws EntityDuplicateException, EntityNotFoundException {
+    Database db = new Database();
+    db.createCourse(
+        new CourseRecord(1000, "CST-1000 Introduction to 4th-Dimensional Computers", 10, "EXT-5"));
     thrown.expect(EntityNotFoundException.class);
     db.linkStudentCourse(2000, 1000);
-    
+
   }
 
   @Test
-  public void linkStudentCourse_missingCourse() throws EntityDuplicateException, EntityNotFoundException {
-    Database db=new Database();
+  public void linkStudentCourse_missingCourse()
+      throws EntityDuplicateException, EntityNotFoundException {
+    Database db = new Database();
     db.createStudent(new StudentRecord(1000, "Joe Jim Joseph Juperm"));
     thrown.expect(EntityNotFoundException.class);
     db.linkStudentCourse(1000, 2000);
-    
+
   }
 
   private void linkTeacherCourse_nominal_core(Database db)
@@ -173,29 +224,34 @@ public class DatabaseTests {
   }
 
   @Test
-  public void linkTeacherCourse_duplicate() throws EntityDuplicateException, EntityNotFoundException {
-    Database db=new Database();
+  public void linkTeacherCourse_duplicate()
+      throws EntityDuplicateException, EntityNotFoundException {
+    Database db = new Database();
     db.createTeacher(new TeacherRecord(1000, "Hort Mra", "hmra@rock.edu", "000-00-0498"));
     db.createCourse(new CourseRecord(2000, "HIS-2000 Mastadon Hunting", 30, "CAVE-99"));
     db.linkTeacherCourse(1000, 2000);
     thrown.expect(EntityDuplicateException.class);
-    db.linkTeacherCourse(1000,2000);
-    }
+    db.linkTeacherCourse(1000, 2000);
+  }
 
   @Test
-  public void linkTeacherCourse_missingTeacher() throws EntityDuplicateException, EntityNotFoundException {
-    Database db=new Database();
-    db.createCourse(new CourseRecord(1000,"CST-1000 Introduction to 4th-Dimensional Computers",10,"EXT-5"));
+  public void linkTeacherCourse_missingTeacher()
+      throws EntityDuplicateException, EntityNotFoundException {
+    Database db = new Database();
+    db.createCourse(
+        new CourseRecord(1000, "CST-1000 Introduction to 4th-Dimensional Computers", 10, "EXT-5"));
     thrown.expect(EntityNotFoundException.class);
     db.linkTeacherCourse(2000, 1000);
-    
+
 
   }
 
   @Test
-  public void linkTeacherCourse_missingCourse() throws EntityDuplicateException, EntityNotFoundException {
-    Database db=new Database();
-    db.createTeacher(new TeacherRecord(1000,"Yopopplize Baboporingo","ybaboporingo@where.edu","998-00-1882"));
+  public void linkTeacherCourse_missingCourse()
+      throws EntityDuplicateException, EntityNotFoundException {
+    Database db = new Database();
+    db.createTeacher(
+        new TeacherRecord(1000, "Yopopplize Baboporingo", "ybaboporingo@where.edu", "998-00-1882"));
     thrown.expect(EntityNotFoundException.class);
     db.linkTeacherCourse(2000, 1000);
   }
@@ -214,36 +270,40 @@ public class DatabaseTests {
   }
 
   @Test
-  public void unlinkStudentCourse_missing() throws EntityDuplicateException, EntityNotFoundException {
-    Database db=new Database();
-    db.createStudent(new StudentRecord(1000,"Yababalola Xyboobalooba"));
-    db.createCourse(new CourseRecord(1000,"ZZZ-1000 Introduction to Sleep.",10,"BED-10"));
+  public void unlinkStudentCourse_missing()
+      throws EntityDuplicateException, EntityNotFoundException {
+    Database db = new Database();
+    db.createStudent(new StudentRecord(1000, "Yababalola Xyboobalooba"));
+    db.createCourse(new CourseRecord(1000, "ZZZ-1000 Introduction to Sleep.", 10, "BED-10"));
     thrown.expect(EntityNotFoundException.class);
     db.unlinkStudentCourse(1000, 1000);
   }
 
   @Test
-  public void unlinkStudentCourse_missingStudent() throws EntityDuplicateException, EntityNotFoundException {
-    Database db=new Database();
-    db.createCourse(new CourseRecord(500,"MTX-500 Advanced Bullet-Time",10,"BLN-100"));
+  public void unlinkStudentCourse_missingStudent()
+      throws EntityDuplicateException, EntityNotFoundException {
+    Database db = new Database();
+    db.createCourse(new CourseRecord(500, "MTX-500 Advanced Bullet-Time", 10, "BLN-100"));
     thrown.expect(EntityNotFoundException.class);
-    db.unlinkStudentCourse(1000,500);
-    
+    db.unlinkStudentCourse(1000, 500);
+
   }
 
   @Test
-  public void unlinkStudentCourse_missingCourse() throws EntityDuplicateException, EntityNotFoundException {
-    Database db=new Database();
-   
-    db.createStudent(new StudentRecord(3000,"Momna Shep"));
+  public void unlinkStudentCourse_missingCourse()
+      throws EntityDuplicateException, EntityNotFoundException {
+    Database db = new Database();
+
+    db.createStudent(new StudentRecord(3000, "Momna Shep"));
     thrown.expect(EntityNotFoundException.class);
     db.unlinkStudentCourse(3000, 2);
     fail("Not yet implemented.");
   }
 
   @Test
-  public void unlinkTeacherCourse_nominal() throws EntityNotFoundException, EntityDuplicateException {
-    Database db=new Database();
+  public void unlinkTeacherCourse_nominal()
+      throws EntityNotFoundException, EntityDuplicateException {
+    Database db = new Database();
     linkTeacherCourse_nominal_core(db);
     db.unlinkTeacherCourse(1000, 2000);
     List<TeacherRecord> courseTeachers = db.getTeachersForCourse(2000).collect(Collectors.toList());
@@ -253,28 +313,32 @@ public class DatabaseTests {
   }
 
   @Test
-  public void unlinkTeacherCourse_missing() throws EntityDuplicateException, EntityNotFoundException {
-    Database db=new Database();
-    db.createTeacher(new TeacherRecord(1000,"Yababalola Xyboobalooba","yxyboobalooba@gababbawabba.edu","102-302-4021"));
-    db.createCourse(new CourseRecord(1000,"ZZZ-1000 Introduction to Sleep.",10,"BED-10"));
+  public void unlinkTeacherCourse_missing()
+      throws EntityDuplicateException, EntityNotFoundException {
+    Database db = new Database();
+    db.createTeacher(new TeacherRecord(1000, "Yababalola Xyboobalooba",
+        "yxyboobalooba@gababbawabba.edu", "102-302-4021"));
+    db.createCourse(new CourseRecord(1000, "ZZZ-1000 Introduction to Sleep.", 10, "BED-10"));
     thrown.expect(EntityNotFoundException.class);
     db.unlinkStudentCourse(1000, 1000);
     fail("Not yet implemented.");
   }
 
   @Test
-  public void unlinkTeacherCourse_missingTeacher() throws EntityDuplicateException, EntityNotFoundException {
-    Database db=new Database();
-    db.createCourse(new CourseRecord(500,"MTX-500 Advanced Bullet-Time",10,"BLN-100"));
+  public void unlinkTeacherCourse_missingTeacher()
+      throws EntityDuplicateException, EntityNotFoundException {
+    Database db = new Database();
+    db.createCourse(new CourseRecord(500, "MTX-500 Advanced Bullet-Time", 10, "BLN-100"));
     thrown.expect(EntityNotFoundException.class);
-    db.unlinkTeacherCourse(1000,500);
+    db.unlinkTeacherCourse(1000, 500);
   }
 
   @Test
-  public void unlinkTeacherCourse_missingCourse() throws EntityDuplicateException, EntityNotFoundException {
-    Database db=new Database();
-    
-    db.createTeacher(new TeacherRecord(3000,"Momna Shep","mshep@hep.edu","123-43-5029"));
+  public void unlinkTeacherCourse_missingCourse()
+      throws EntityDuplicateException, EntityNotFoundException {
+    Database db = new Database();
+
+    db.createTeacher(new TeacherRecord(3000, "Momna Shep", "mshep@hep.edu", "123-43-5029"));
     thrown.expect(EntityNotFoundException.class);
     db.unlinkTeacherCourse(3000, 2);
     fail("Not yet implemented.");
