@@ -21,6 +21,27 @@ public class DatabaseTests {
   private final TeacherRecord stdTeacherRecord=new TeacherRecord(1000,"A. Teacher","ateacher@school.edu","123-45-6789");
   private final StudentRecord stdStudentRecord=new StudentRecord(2000,"A. Student");
   private final CourseRecord stdCourseRecord=new CourseRecord(3000,"CLS-3000 Introduction To Subject",10,"ROOM 0");
+  public void deleteStudent_nominal() throws EntityNotFoundException{
+    fail("Not Implemented");
+  }
+  public void deleteStudent_missing() throws EntityNotFoundException{
+    fail("Not Implemented");
+  }
+  public void deleteTeacher_nominal() throws EntityNotFoundException{
+    fail("Not Implemented");
+  }
+  public void deleteTeacher_missing() throws EntityNotFoundException{
+    fail("Not Implemented");
+  }
+  public void deleteCourse_nominal() throws EntityNotFoundException{
+    fail("Not Implemented.");
+  }
+  public void deleteCourse_missing() throws EntityNotFoundException{
+    fail("Not Implemented.");
+  }
+  
+  
+  
   @Test
   public void createStudent_nominal() throws EntityDuplicateException {
     Database db = new Database();
