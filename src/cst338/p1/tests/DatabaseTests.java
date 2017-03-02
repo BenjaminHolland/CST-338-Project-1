@@ -119,8 +119,12 @@ public class DatabaseTests {
   }
 
   @Test
-  public void linkStudentCourse_missingCourse() {
-    fail("Not yet implemented.");
+  public void linkStudentCourse_missingCourse() throws EntityDuplicateException, EntityNotFoundException {
+    Database db=new Database();
+    db.createStudent(new StudentRecord(1000, "Joe Jim Joseph Juperm"));
+    thrown.expect(EntityNotFoundException.class);
+    db.linkStudentCourse(1000, 2000);
+    
   }
 
   private void linkTeacherCourse_nominal_core(Database db)
