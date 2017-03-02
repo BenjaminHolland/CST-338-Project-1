@@ -81,27 +81,41 @@ public class DatabaseTests {
    
   }
 
-  public void deleteCourse_nominal() throws EntityNotFoundException {
-    // Add Teacher.
-    // Add Student.
-    // Add Course.
-    // Link Teacher to Course.
-    // Link Student to Course.
-    // Delete course.
-    // Ensure course no longer exists.
-    // Ensure teacher still exists.
-    // Ensure student still exists.
-    // Ensure teacher is no longer assigned to course.
-    // Ensure student is no longer in course.
+  public void deleteCourse_nominal() throws EntityNotFoundException, EntityDuplicateException {
 
-    fail("Not Implemented.");
+    Database db=new Database();
+    // Add Teacher.
+    db.createTeacher(stdTeacherRecord);
+    // Add Student.
+    db.createStudent(stdStudentRecord);
+    // Add Course.
+    db.createCourse(stdCourseRecord);
+    // Link Teacher to Course.
+    db.linkTeacherCourse(stdTeacherRecord.getId(),stdCourseRecord.getId());
+    // Link Student to Course.
+    db.linkStudentCourse(stdStudentRecord.getId(),stdCourseRecord.getId());
+    // Delete course.
+    db.deleteCourse(stdCourseRecord.getId());
+    // Ensure course no longer exists.
+    assertEquals(0,db.getCourseStream().count());
+    // Ensure teacher still exists.
+    db.getTeacherById(stdTeacherRecord.getId());
+    // Ensure student still exists.
+    db.getStudentById(stdStudentRecord.getId());
+    // Ensure teacher is no longer assigned to course.
+    assertEquals(0,db.getCoursesForTeacher(stdTeacherRecord.getId()).count());
+    // Ensure student is no longer in course.
+    assertEquals(0,db.getCoursesForStudent(stdStudentRecord.getId()).count());
+
   }
 
   public void deleteCourse_missing() throws EntityNotFoundException {
+    Database db=new Database();
     //Expect EntityNotFoundException
+    thrown.expect(EntityNotFoundException.class);
     //Call deleteCourse
+    db.deleteCourse(stdCourseRecord.getId());
     
-    fail("Not Implemented.");
   }
 
 
