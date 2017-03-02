@@ -278,7 +278,8 @@ public class DatabaseTests {
 
 
   }
-
+  
+ 
   @Test
   public void linkTeacherCourse_missingCourse()
       throws EntityDuplicateException, EntityNotFoundException {
@@ -375,5 +376,29 @@ public class DatabaseTests {
     thrown.expect(EntityNotFoundException.class);
     db.unlinkTeacherCourse(3000, 2);
     fail("Not yet implemented.");
+  }
+  
+  @Test
+  public void getTeachersByEmail_nominal(){
+    //Add teacher
+    //Add another teacher with a different email.
+    //Get list of teachers with matching emails.
+    //Ensure there is only one teacher returned.
+    //Ensure the one teacher returned has the correct email.
+  }
+  @Test
+  public void getTeachersByEmail_missing(){
+    //Add a teacher
+    //Get a list of teachers with an email that is anything but the email of the teacher added.
+    //Ensure there are no teachers returned.
+  }
+  @Test
+  public void getTeachersByEmail_duplicate(){
+    //Add a teacher
+    //Add another teacher with a different email.
+    //Add another teacher with the same email.
+    //Get list of teachers with emails matching the first email.
+    //Ensure there are two teachers returned.
+    //Ensure the emails of those teacher match.
   }
 }
