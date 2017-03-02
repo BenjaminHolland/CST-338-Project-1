@@ -70,8 +70,12 @@ public class DatabaseTests {
   }
 
   @Test
-  public void createCourse_duplicate() {
-    fail("Not yet implemented");
+  public void createCourse_duplicate() throws EntityDuplicateException {
+    Database db=new Database();
+    thrown.expect(EntityDuplicateException.class);
+    db.createCourse(new CourseRecord(1000,"ECO-1000 Introduction to Fish",30,"OCEAN-10"));
+    db.createCourse(new CourseRecord(1000,"ECO-1000 Introduction to Fish",30,"OCEAN-10"));
+   
   }
 
   private void linkStudentCourse_nominal_core(Database db)
@@ -96,8 +100,13 @@ public class DatabaseTests {
   }
 
   @Test
-  public void linkStudentCourse_duplicate() {
-    fail("Not yet implemented.");
+  public void linkStudentCourse_duplicate() throws EntityDuplicateException, EntityNotFoundException {
+    Database db=new Database();
+    db.createStudent(new StudentRecord(1000, "Yar Ogg"));
+    db.createCourse(new CourseRecord(2000, "HIS-2000 Mastadon Hunting", 30, "CAVE-99"));
+    db.linkStudentCourse(1000, 2000);
+    thrown.expect(EntityDuplicateException.class);
+    db.linkStudentCourse(1000, 2000);
   }
 
   @Test
