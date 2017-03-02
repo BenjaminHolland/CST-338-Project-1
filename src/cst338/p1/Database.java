@@ -206,46 +206,7 @@ public class Database {
    * @throws EntityDuplicateException if the teacher is already assigned to the class.
    * @throws EntityNotFoundException If the specified Teacher or Course is not already in the database. 
    */
-  public void linkTeacherCourse(TeacherRecord teacher, CourseRecord course)
-      throws EntityDuplicateException,EntityNotFoundException {
-    if (!linkTeacherCourse.containsKey(teacher.getId())) {
-      linkTeacherCourse.put(teacher.getId(), new ArrayList<>());
-    }
-    if (linkTeacherCourse.get(teacher.getId()).contains(course.getId())) {
-      throw new EntityDuplicateException();
-    } else {
-      linkTeacherCourse.get(teacher.getId()).add(course.getId());
-    }
-  }
-
-  /**
-   * Specify the given teacher is no longer assigned to a given course.
-   * @param teacher The teacher to remove from the course.  
-   * @param course The course to remove the teacher from.
-   * @throws EntityNotFoundException If the teacher is not assigned to the course, or the specified course or teacher is not in the database. 
-   */
-  public void unlinkTeacherCourse(TeacherRecord teacher, CourseRecord course)
-      throws EntityNotFoundException {
-    if (!linkTeacherCourse.containsKey(teacher.getId())) {
-      throw new EntityNotFoundException();
-    } else {
-      if (!linkTeacherCourse.get(teacher.getId()).contains(course.getId())) {
-        throw new EntityNotFoundException();
-      } else {
-        linkTeacherCourse.get(teacher.getId()).remove((Object) course.getId());
-      }
-    }
-  }
-
-  //TODO: write link/unlink methods for Student/Course linkages.
-  /**
-   * Specify that the given teacher is assigned to a given course.
-   * @param teacher The teacher to assign to the course.
-   * @param course The course to assign the teacher to.
-   * @throws EntityDuplicateException if the teacher is already assigned to the class.
-   * @throws EntityNotFoundException If the specified Teacher or Course is not already in the database. 
-   */
-  public void linkStudentCourse(StudentRecord teacher, CourseRecord course)
+  public void linkTeacherCourse(Integer teacherId, Integer courseId)
       throws EntityDuplicateException,EntityNotFoundException {
     
   }
@@ -256,7 +217,30 @@ public class Database {
    * @param course The course to remove the teacher from.
    * @throws EntityNotFoundException If the teacher is not assigned to the course, or the specified course or teacher is not in the database. 
    */
-  public void unlinkStudentCourse(StudentRecord teacher, CourseRecord course)
+  public void unlinkTeacherCourse(Integer teacherId, Integer courseId)
+      throws EntityNotFoundException {
+  }
+
+  //TODO: write link/unlink methods for Student/Course linkages.
+  /**
+   * Specify that the given teacher is assigned to a given course.
+   * @param teacher The teacher to assign to the course.
+   * @param course The course to assign the teacher to.
+   * @throws EntityDuplicateException if the teacher is already assigned to the class.
+   * @throws EntityNotFoundException If the specified Teacher or Course is not already in the database. 
+   */
+  public void linkStudentCourse(Integer studentId, Integer courseId)
+      throws EntityDuplicateException,EntityNotFoundException {
+    
+  }
+
+  /**
+   * Specify the given teacher is no longer assigned to a given course.
+   * @param teacher The teacher to remove from the course.  
+   * @param course The course to remove the teacher from.
+   * @throws EntityNotFoundException If the teacher is not assigned to the course, or the specified course or teacher is not in the database. 
+   */
+  public void unlinkStudentCourse(Integer studentId, Integer courseId)
       throws EntityNotFoundException {
     
   }
