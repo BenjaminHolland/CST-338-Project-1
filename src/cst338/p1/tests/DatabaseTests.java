@@ -11,6 +11,7 @@ import cst338.p1.CourseRecord;
 import cst338.p1.Database;
 import cst338.p1.EntityDuplicateException;
 import cst338.p1.StudentRecord;
+import cst338.p1.TeacherRecord;
 
 public class DatabaseTests {
 
@@ -28,8 +29,15 @@ public class DatabaseTests {
     fail("Not yet implemented");
   }
   @Test
-  public void createTeacher_nominal() {
-    fail("Not yet implemented");
+  public void createTeacher_nominal() throws EntityDuplicateException {
+    Database db=new Database();
+    db.createTeacher(new TeacherRecord(1000,"Hop Slammin","hslammin@yas.edu","123-45-6789"));
+    List<TeacherRecord> records=db.getTeacherStream().collect(Collectors.toList());
+    assertEquals(1, records.size());
+    assertEquals(Integer.valueOf(1000), records.get(0).getId());
+    assertEquals("Hop Slammin", records.get(0).getName());
+    assertEquals("hslammin@yas.edu", records.get(0).getEmail());
+    assertEquals("123-45-6789",records.get(0).getSsn());
   }
   @Test
   public void createTeacher_duplicateId() {
