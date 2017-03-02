@@ -24,37 +24,46 @@ public class Database {
   private final Map<Integer, List<Integer>> linkTeacherCourse;
 
 
-  private void ensureExistantStudentCourseLink(Integer studentId,Integer courseId) throws EntityNotFoundException{
-    if(!linkStudentCourse.containsKey(studentId)){
+  private void ensureExistantStudentCourseLink(Integer studentId, Integer courseId)
+      throws EntityNotFoundException {
+    if (!linkStudentCourse.containsKey(studentId)) {
       throw new EntityNotFoundException();
-    }else if(!linkStudentCourse.get(studentId).contains(courseId)){
+    } else if (!linkStudentCourse.get(studentId).contains(courseId)) {
       throw new EntityNotFoundException();
     }
   }
-  
+
   private void ensureExistantCourse(Integer courseId) throws EntityNotFoundException {
     if (!courses.containsKey(courseId)) {
       throw new EntityNotFoundException();
     }
   }
-  
-  private void ensureExistantTeacherCourseLinnke(Integer teacherId,Integer courseId) throws EntityNotFoundException{
-    if(!linkTeacherCourse.containsKey(teacherId)){
+
+  private void ensureExistantTeacherCourseLinnke(Integer teacherId, Integer courseId)
+      throws EntityNotFoundException {
+    if (!linkTeacherCourse.containsKey(teacherId)) {
       throw new EntityNotFoundException();
-    }else if(!linkTeacherCourse.get(teacherId).contains(courseId)){
+    } else if (!linkTeacherCourse.get(teacherId).contains(courseId)) {
       throw new EntityNotFoundException();
     }
   }
-  private void ensureNonExistantStudentCourseLink(Integer studentId,Integer courseId) throws EntityDuplicateException{
-    if(linkStudentCourse.containsKey(studentId)&&linkStudentCourse.get(studentId).contains(courseId)){
+
+  private void ensureNonExistantStudentCourseLink(Integer studentId, Integer courseId)
+      throws EntityDuplicateException {
+    if (linkStudentCourse.containsKey(studentId)
+        && linkStudentCourse.get(studentId).contains(courseId)) {
       throw new EntityDuplicateException();
     }
   }
-  private void ensureNonExistantTeacherCourseLinnke(Integer teacherId,Integer courseId) throws EntityDuplicateException{
-    if(linkTeacherCourse.containsKey(teacherId)&&linkTeacherCourse.get(teacherId).contains(courseId)){
+
+  private void ensureNonExistantTeacherCourseLinnke(Integer teacherId, Integer courseId)
+      throws EntityDuplicateException {
+    if (linkTeacherCourse.containsKey(teacherId)
+        && linkTeacherCourse.get(teacherId).contains(courseId)) {
       throw new EntityDuplicateException();
     }
   }
+
   private void ensureExistantStudent(Integer studentId) throws EntityNotFoundException {
     if (!students.containsKey(studentId)) {
       throw new EntityNotFoundException();
@@ -180,7 +189,7 @@ public class Database {
    * @throws EntityNotFoundException If there is no student with a matching id.
    */
   public void deleteStudent(Integer id) throws EntityNotFoundException {
-   
+
     StudentRecord record = getStudentById(id);
     // Remove record;
     students.remove((Object) record.getId());
@@ -199,7 +208,7 @@ public class Database {
   public StudentRecord getStudentById(Integer id) throws EntityNotFoundException {
     ensureExistantStudent(id);
     return students.get(id);
-    
+
   }
 
   /**
@@ -231,13 +240,13 @@ public class Database {
   public void deleteCourse(Integer id) throws EntityNotFoundException {
     CourseRecord record = getCourseById(id);
     courses.remove(record.getId());
-    
-    //Remove references to this course from students schedules.
+
+    // Remove references to this course from students schedules.
     for (List<Integer> classList : linkStudentCourse.values()) {
       classList.remove((Object) record.getId());
     }
-    
-    //Remove references to this course from teachers schedules.
+
+    // Remove references to this course from teachers schedules.
     for (List<Integer> classList : linkTeacherCourse.values()) {
       classList.remove((Object) record.getId());
     }
@@ -280,14 +289,14 @@ public class Database {
    * @param course The course to remove the teacher from.
    * @throws EntityNotFoundException If the teacher is not assigned to the course, or the specified
    *         course or teacher is not in the database.
-   * @throws EntityDuplicateException 
+   * @throws EntityDuplicateException
    */
   public void unlinkTeacherCourse(Integer teacherId, Integer courseId)
       throws EntityNotFoundException, EntityDuplicateException {
     ensureExistantCourse(courseId);
     ensureExistantTeacher(teacherId);
     ensureExistantTeacherCourseLinnke(teacherId, courseId);
-    linkTeacherCourse.get(teacherId).remove((Object)courseId);
+    linkTeacherCourse.get(teacherId).remove((Object) courseId);
   }
 
   // TODO: write link/unlink methods for Student/Course linkages.
@@ -302,10 +311,10 @@ public class Database {
    */
   public void linkStudentCourse(Integer studentId, Integer courseId)
       throws EntityDuplicateException, EntityNotFoundException {
-      ensureExistantStudent(studentId);
-      ensureExistantCourse(courseId);
-      ensureNonExistantStudentCourseLink(studentId, courseId);
-      linkStudentCourse.get(studentId).add(courseId);
+    ensureExistantStudent(studentId);
+    ensureExistantCourse(courseId);
+    ensureNonExistantStudentCourseLink(studentId, courseId);
+    linkStudentCourse.get(studentId).add(courseId);
   }
 
   /**
@@ -318,15 +327,13 @@ public class Database {
    */
   public void unlinkStudentCourse(Integer studentId, Integer courseId)
       throws EntityNotFoundException {
-      ensureExistantStudent(studentId);
-      ensureExistantCourse(courseId);
-      ensureExistantStudentCourseLink(studentId, courseId);
-      linkStudentCourse.get(studentId).remove((Object)courseId);
+    ensureExistantStudent(studentId);
+    ensureExistantCourse(courseId);
+    ensureExistantStudentCourseLink(studentId, courseId);
+    linkStudentCourse.get(studentId).remove((Object) courseId);
   }
 
 
-
-  
 
   public Stream<CourseRecord> getCoursesForStudent(Integer studentId)
       throws EntityNotFoundException {
