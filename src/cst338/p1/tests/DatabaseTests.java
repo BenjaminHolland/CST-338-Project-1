@@ -47,9 +47,10 @@ public class DatabaseTests {
 
   public void deleteStudent_missing() throws EntityNotFoundException {
     // Expect an EntityNotFound Exception.
+    thrown.expect(EntityNotFoundException.class);
     // Call Delete student.
-
-    fail("Not Implemented");
+    Database db=new Database();
+    db.deleteStudent(stdStudentRecord.getId());
   }
 
   public void deleteTeacher_nominal() throws EntityNotFoundException {
