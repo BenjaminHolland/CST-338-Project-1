@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
+import cst338.p1.CourseRecord;
 import cst338.p1.Database;
 import cst338.p1.EntityDuplicateException;
 import cst338.p1.StudentRecord;
@@ -39,8 +40,15 @@ public class DatabaseTests {
     fail("Not yet implemented");
   }
   @Test
-  public void createCourse_nominal() {
-    fail("Not yet implemented");
+  public void createCourse_nominal() throws EntityDuplicateException {
+    Database db=new Database();
+    db.createCourse(new CourseRecord(1000,"BOB-1000 Introduction to Derp",30,"LOL-50"));
+    List<CourseRecord> records=db.getCourseStream().collect(Collectors.toList());
+    assertEquals(1, records.size());
+    assertEquals(Integer.valueOf(1000), records.get(0).getId());
+    assertEquals("BOB-1000 Introduction to Derp", records.get(0).getTitle());
+    assertEquals(Integer.valueOf(30), records.get(0).getCapacity());
+    assertEquals("LOL-50",records.get(0).getLocation());
   }
   @Test
   public void createCourse_duplicate() {
