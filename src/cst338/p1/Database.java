@@ -240,8 +240,18 @@ public class Database {
     
   }
   
-  public Stream<CourseRecord> getCoursesForStudent(Integer studentId){
-    return null;
+  private void ensureExistantStudent(Integer studentId) throws EntityNotFoundException{
+    if(!students.containsKey(studentId)){
+      throw new EntityNotFoundException();
+    }
+  }
+  public Stream<CourseRecord> getCoursesForStudent(Integer studentId) throws EntityNotFoundException{
+    ensureExistantStudent(studentId);
+    if(linkStudentCourse.containsKey(studentId)){
+      return linkStudentCourse.get(studentId).stream().map(courseId->courses.get(courseId)).filter(record->record!=null);
+    }else{
+      return Stream.empty();
+    }
   }
   public Stream<CourseRecord> getCoursesForTeacher(Integer teacherId){
     return null;
