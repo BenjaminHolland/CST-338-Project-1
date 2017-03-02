@@ -63,9 +63,7 @@ public class DatabaseTests {
   public void createCourse_duplicate() {
     fail("Not yet implemented");
   }
-  @Test
-  public void linkStudentCourse_nominal() throws EntityDuplicateException, EntityNotFoundException{
-    Database db=new Database();
+  private void linkStudentCourse_nominal_core(Database db) throws EntityNotFoundException,EntityDuplicateException{
     db.createStudent(new StudentRecord(1000,"Yar Ogg"));
     db.createCourse(new CourseRecord(2000,"HIS-2000 Mastadon Hunting",30,"CAVE-99"));
     db.linkStudentCourse(1000, 2000);
@@ -76,7 +74,12 @@ public class DatabaseTests {
     List<CourseRecord> studentCourses=db.getCoursesForStudent(1000).collect(Collectors.toList());
     assertEquals(1,studentCourses.size());
     assertEquals(Integer.valueOf(2000), studentCourses.get(0).getId());
-   
+  
+  }
+  @Test
+  public void linkStudentCourse_nominal() throws EntityDuplicateException, EntityNotFoundException{
+    Database db=new Database();
+    linkStudentCourse_nominal_core(db);
   }
   @Test
   public void linkStudentCourse_duplicate(){
@@ -112,8 +115,14 @@ public class DatabaseTests {
 
   
   @Test
-  public void unlinkStudentCourse_nominal(){
-   fail("Not yet implemented."); 
+  public void unlinkStudentCourse_nominal() throws EntityDuplicateException, EntityNotFoundException{
+    Database db=new Database();
+    linkStudentCourse_nominal_core(db);
+    db.unlinkStudentCourse(1000,2000);
+    List<StudentRecord> courseStudents=db.getStudentsForCourse(2000).collect(Collectors.toList());
+    assertEquals(0,courseStudents.size());
+    List<CourseRecord> studentCourses=db.getCoursesForStudent(1000).collect(Collectors.toList());
+    assertEquals(0, courseStudents.size());
   }
   @Test
   public void unlinkStudentCourse_missing(){
