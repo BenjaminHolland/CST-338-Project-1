@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import javax.naming.OperationNotSupportedException;
+
 
 /**
  * Educational Database.
@@ -236,6 +238,29 @@ public class Database {
   }
 
   //TODO: write link/unlink methods for Student/Course linkages.
+  /**
+   * Specify that the given teacher is assigned to a given course.
+   * @param teacher The teacher to assign to the course.
+   * @param course The course to assign the teacher to.
+   * @throws EntityDuplicateException if the teacher is already assigned to the class.
+   * @throws EntityNotFoundException If the specified Teacher or Course is not already in the database. 
+   */
+  public void linkStudentCourse(StudentRecord teacher, CourseRecord course)
+      throws EntityDuplicateException,EntityNotFoundException {
+    
+  }
+
+  /**
+   * Specify the given teacher is no longer assigned to a given course.
+   * @param teacher The teacher to remove from the course.  
+   * @param course The course to remove the teacher from.
+   * @throws EntityNotFoundException If the teacher is not assigned to the course, or the specified course or teacher is not in the database. 
+   */
+  public void unlinkStudentCourse(StudentRecord teacher, CourseRecord course)
+      throws EntityNotFoundException {
+    
+  }
+  
   /**
    * Iterate over courses. 
    * @return A stream of course records.
