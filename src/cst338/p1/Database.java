@@ -245,6 +245,11 @@ public class Database {
       throw new EntityNotFoundException();
     }
   }
+  private void ensureExistantTeacher(Integer teacherId) throws EntityNotFoundException{
+    if(!teachers.containsKey(teacherId)){
+      throw new EntityNotFoundException();
+    }
+  }
   public Stream<CourseRecord> getCoursesForStudent(Integer studentId) throws EntityNotFoundException{
     ensureExistantStudent(studentId);
     if(linkStudentCourse.containsKey(studentId)){
@@ -254,7 +259,13 @@ public class Database {
     }
   }
   public Stream<CourseRecord> getCoursesForTeacher(Integer teacherId){
-    return null;
+    ensureExistantTeacher(teacherId);
+    if(linkTeacherCourse.containsKey(teacherId)){
+      return linkTeacherCourse.get(teacherId).stream().map(courseId->courses.get(courseId)).filter(record->record!=null);
+      
+    }else{
+      return Stream.empty();
+    }
   }
   public Stream<TeacherRecord> getTeachersForCourse(Integer courseId){
     return null;
