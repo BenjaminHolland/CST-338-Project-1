@@ -270,7 +270,7 @@ public class Database {
     ensureExistantCourse(courseId);
     ensureExistantTeacher(teacherId);
     ensureNonExistantTeacherCourseLinnke(teacherId, courseId);
-    
+    linkTeacherCourse.get(teacherId).add(courseId);
   }
 
   /**
@@ -287,6 +287,7 @@ public class Database {
     ensureExistantCourse(courseId);
     ensureExistantTeacher(teacherId);
     ensureExistantTeacherCourseLinnke(teacherId, courseId);
+    linkTeacherCourse.get(teacherId).remove((Object)courseId);
   }
 
   // TODO: write link/unlink methods for Student/Course linkages.
@@ -304,6 +305,7 @@ public class Database {
       ensureExistantStudent(studentId);
       ensureExistantCourse(courseId);
       ensureNonExistantStudentCourseLink(studentId, courseId);
+      linkStudentCourse.get(studentId).add(courseId);
   }
 
   /**
@@ -319,6 +321,7 @@ public class Database {
       ensureExistantStudent(studentId);
       ensureExistantCourse(courseId);
       ensureExistantStudentCourseLink(studentId, courseId);
+      linkStudentCourse.get(studentId).remove((Object)courseId);
   }
 
 
