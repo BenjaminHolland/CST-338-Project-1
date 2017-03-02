@@ -1,0 +1,8 @@
+2
+500,G. Bruns,bruns@csumb.edu,555-222-2222
+300,O. Doe,doe@csumb.edu,444-333-3333
+1
+336,CST336 - Internet Programming,3,Library 1010
+2
+7777,Unknown Otter 
+9999,John Doe
