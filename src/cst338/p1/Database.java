@@ -245,6 +245,18 @@ public class Database {
     
   }
   
+  public Stream<CourseRecord> getCoursesForStudent(Integer studentId){
+    return null;
+  }
+  public Stream<CourseRecord> getCoursesForTeacher(Integer teacherId){
+    return null;
+  }
+  public Stream<TeacherRecord> getTeachersForCourse(Integer courseId){
+    return null;
+  }
+  public Stream<StudentRecord> getStudentsForCourse(Integer courseId){
+    return null;
+  }
   /**
    * Iterate over courses. 
    * @return A stream of course records.
