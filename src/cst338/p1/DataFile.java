@@ -1,6 +1,5 @@
 package cst338.p1;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,8 +8,12 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.stream.Stream;
 
+/***
+ * Represents a File with educational database records in it. 
+ * @author Benjamin
+ *
+ */
 public class DataFile {
-
   private static CourseRecord parseClassRecord(String classRecordLine) {
     StringTokenizer tokenizer = new StringTokenizer(classRecordLine, ",");
 
@@ -37,7 +40,13 @@ public class DataFile {
     String ssn = tokenizer.nextToken();
     return new TeacherRecord(id, name, email, ssn);
   }
-
+  /**
+   * Loads data from a file into memory. 
+   * @param path The path with the record data.
+   * @return A DataFile object that contains the data in the file.
+   * @throws IOException If there was an error reading the file. 
+   * @note This is mainly to prevent exceptions from being thrown from a constructor, which I'm not particularly fond of. 
+   */
   public static DataFile load(String path) throws IOException {
     File fileStream = new File(path);
     Scanner fileScanner = new Scanner(fileStream);
@@ -98,14 +107,26 @@ public class DataFile {
     teachers = new ArrayList<>();
   }
 
+  /**
+   * Classes
+   * @return A stream of Course Records. 
+   */
   public Stream<CourseRecord> getClassStream() {
     return classes.stream();
   }
 
+  /**
+   * Students.
+   * @return A stream of student records. 
+   */
   public Stream<StudentRecord> getStudentStream() {
     return students.stream();
   }
 
+  /**
+   * Teachers
+   * @return a stream of teachers. 
+   */
   public Stream<TeacherRecord> getTeacherStream() {
     return teachers.stream();
   }
