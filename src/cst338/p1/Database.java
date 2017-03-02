@@ -41,7 +41,7 @@ public class Database {
   private void ensureExistantTeacherCourseLinnke(Integer teacherId,Integer courseId) throws EntityNotFoundException{
     if(!linkTeacherCourse.containsKey(teacherId)){
       throw new EntityNotFoundException();
-    }else if(!linkTeacherCourse.containsKey(courseId)){
+    }else if(!linkTeacherCourse.get(teacherId).contains(courseId)){
       throw new EntityNotFoundException();
     }
   }

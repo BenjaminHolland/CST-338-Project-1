@@ -177,7 +177,7 @@ public class DatabaseTests {
     db.unlinkTeacherCourse(1000, 2000);
     List<TeacherRecord> courseTeachers = db.getTeachersForCourse(2000).collect(Collectors.toList());
     assertEquals(0, courseTeachers.size());
-    List<CourseRecord> teacherCourses = db.getCoursesForStudent(1000).collect(Collectors.toList());
+    List<CourseRecord> teacherCourses = db.getCoursesForTeacher(1000).collect(Collectors.toList());
     assertEquals(0, teacherCourses.size());
   }
 
