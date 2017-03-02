@@ -208,9 +208,12 @@ public class DatabaseTests {
   }
 
   @Test
-  public void unlinkStudentCourse_missingCourse() {
-    db.createStudent(new StudentRecord(3000,"Momna Shep")));
-    
+  public void unlinkStudentCourse_missingCourse() throws EntityDuplicateException {
+    Database db=new Database();
+   
+    db.createStudent(new StudentRecord(3000,"Momna Shep"));
+    thrown.expect(EntityNotFoundException.class);
+    db.unlinkStudentCourse(3000, 2);
     fail("Not yet implemented.");
   }
 
