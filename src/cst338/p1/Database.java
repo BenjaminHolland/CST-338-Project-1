@@ -121,14 +121,14 @@ public class Database {
   /**
    * Creates the specified teacher record.
    * 
-   * @param teacher The data to store in the teacher table.
+   * @param integer The data to store in the teacher table.
    * @throws EntityDuplicateException if a teacher with the same id already exists. (Possibly also
    *         if the email already exists.)
    */
-  public void createTeacher(TeacherRecord teacher) throws EntityDuplicateException {
-    ensureNonExistantTeacher(teacher.getId());
-    teachers.put(teacher.getId(), teacher);
-    linkTeacherCourse.put(teacher.getId(), new ArrayList<>());
+  public void createTeacher(TeacherRecord integer) throws EntityDuplicateException {
+    ensureNonExistantTeacher(integer.getId());
+    teachers.put(integer.getId(), integer);
+    linkTeacherCourse.put(integer.getId(), new ArrayList<>());
   }
 
   /**
@@ -154,7 +154,7 @@ public class Database {
    * @throws EntityNotFoundException If there is no teacher with a matching email.
    */
   public Stream<TeacherRecord> getTeachersByEmail(final String email)
-      throws EntityNotFoundException {
+       {
     return getTeacherStream().filter(record -> record.getEmail().equals(email));
   }
 

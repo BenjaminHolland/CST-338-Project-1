@@ -379,25 +379,42 @@ public class DatabaseTests {
   }
   
   @Test
-  public void getTeachersByEmail_nominal(){
+  public void getTeachersByEmail_nominal() throws EntityDuplicateException, EntityNotFoundException{
+    Database db=new Database();
     //Add teacher
+    db.createTeacher(stdTeacherRecord);
     //Add another teacher with a different email.
+    db.createTeacher(new TeacherRecord(1450,"B. Teacher","bteacher@school.edu","192-39-1000"));
     //Get list of teachers with matching emails.
+    List<TeacherRecord> results=db.getTeachersByEmail(stdTeacherRecord.getEmail()).collect(Collectors.toList());
     //Ensure there is only one teacher returned.
+    assertEquals(0,results.size());
     //Ensure the one teacher returned has the correct email.
+    assertEquals(stdTeacherRecord.getEmail(),results.get(0).getEmail());
   }
   @Test
-  public void getTeachersByEmail_missing(){
+  public void getTeachersByEmail_missing() throws EntityDuplicateException{
+    Database db=new Database();
     //Add a teacher
+    db.createTeacher(stdTeacherRecord);
     //Get a list of teachers with an email that is anything but the email of the teacher added.
+    List<TeacherRecord> results=db.getTeachersByEmail("email@not.matching").collect(Collectors.toList());
     //Ensure there are no teachers returned.
+    assertEquals(0,results.size());
   }
   @Test
-  public void getTeachersByEmail_duplicate(){
+  public void getTeachersByEmail_duplicate() throws EntityDuplicateException{
+    Database db=new Database();
+    TeacherRecord otherTeacher=new TeacherRecord(1,"Alphabet Soup","asoup@school.edu","098-76-5432");
+    TeacherRecord dupTeacher=new TeacherRecord(2,"Another Teacher","ateacher@school.edu","101-01-0101");
     //Add a teacher
+    db.createTeacher(stdTeacherRecord);
     //Add another teacher with a different email.
+    db.createTeacher(otherTeacher);
     //Add another teacher with the same email.
+    db.createTeacher(dupTeacher);
     //Get list of teachers with emails matching the first email.
+    List<TeacherRecord> results=db.getTeachersByEmail(stdTeacherRecord.getEmail()).collect(Collectors.toList());
     //Ensure there are two teachers returned.
     //Ensure the emails of those teacher match.
   }
