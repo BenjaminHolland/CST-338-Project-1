@@ -72,20 +72,15 @@ public class Database {
   // index on the email field, but as this isn't the goal of the assignment I've chosen to leave
   // it out. It also assumes that email addresses are unique, and so doesn't check for additional
   // matches.
+  // RESOLUTION: emails are not unique. Therefor all teachers with matching emails should be returnted.
   /**
    * Attempts to find a teacher by their email.
    * @param email The email to find.
    * @return The first teacher with a matching email in the table.
    * @throws EntityNotFoundException If there is no teacher with a matching email.
    */
-  public TeacherRecord getTeacherByEmail(final String email) throws EntityNotFoundException {
-    Optional<TeacherRecord> recordOption =
-        getTeacherStream().filter(record -> record.getEmail().equals(email)).findFirst();
-    if (!recordOption.isPresent()) {
-      throw new EntityNotFoundException();
-    } else {
-      return recordOption.get();
-    }
+  public Stream<TeacherRecord> getTeachersByEmail(final String email) throws EntityNotFoundException {
+    return getTeacherStream().filter(record->record.getEmail().equals(email));
   }
 
   /**
