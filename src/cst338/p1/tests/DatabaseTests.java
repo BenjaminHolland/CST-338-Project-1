@@ -24,7 +24,7 @@ public class DatabaseTests {
   private final StudentRecord stdStudentRecord = new StudentRecord(2000, "A. Student");
   private final CourseRecord stdCourseRecord =
       new CourseRecord(3000, "CLS-3000 Introduction To Subject", 10, "ROOM 0");
-
+@Test
   public void deleteStudent_nominal() throws EntityNotFoundException, EntityDuplicateException {
     Database db=new Database();
     
@@ -44,7 +44,7 @@ public class DatabaseTests {
     assertEquals(0,db.getStudentsForCourse(stdCourseRecord.getId()).count());
 
   }
-
+@Test
   public void deleteStudent_missing() throws EntityNotFoundException {
     // Expect an EntityNotFound Exception.
     thrown.expect(EntityNotFoundException.class);
@@ -52,7 +52,7 @@ public class DatabaseTests {
     Database db=new Database();
     db.deleteStudent(stdStudentRecord.getId());
   }
-
+@Test
   public void deleteTeacher_nominal() throws EntityNotFoundException, EntityDuplicateException {
     Database db=new Database();
     // Add Teacher.
@@ -71,7 +71,7 @@ public class DatabaseTests {
     assertEquals(0, db.getTeachersForCourse(stdCourseRecord.getId()));
  
   }
-
+@Test
   public void deleteTeacher_missing() throws EntityNotFoundException {
     // Expect an EntityNotFound Exception.
     thrown.expect(EntityNotFoundException.class);
@@ -80,7 +80,7 @@ public class DatabaseTests {
     db.deleteTeacher(stdTeacherRecord.getId());
    
   }
-
+@Test
   public void deleteCourse_nominal() throws EntityNotFoundException, EntityDuplicateException {
 
     Database db=new Database();
@@ -108,7 +108,7 @@ public class DatabaseTests {
     assertEquals(0,db.getCoursesForStudent(stdStudentRecord.getId()).count());
 
   }
-
+@Test
   public void deleteCourse_missing() throws EntityNotFoundException {
     Database db=new Database();
     //Expect EntityNotFoundException
