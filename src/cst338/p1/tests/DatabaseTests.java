@@ -511,4 +511,5 @@ public class DatabaseTests {
     assertEquals(1, coursesForStudent.size());
     assertEquals(coursesForStudent.get(0).getId(), stdCourseRecord.getId());
   }
+  
 }
