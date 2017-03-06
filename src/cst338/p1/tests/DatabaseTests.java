@@ -235,7 +235,19 @@ public class DatabaseTests {
     db.linkStudentCourse(1000, 2000);
 
   }
-
+  @Test
+  public void linkStudentCourse_fullCourse() throws EntityDuplicateException,EntityNotFoundException,CourseFullException{
+     Database db=new Database();
+     db.createCourse(stdCourseRecord);
+     for(int idx=0;idx<10;idx++){
+       db.createStudent(new StudentRecord(idx,"Student "+idx));
+       db.linkStudentCourse(idx,stdCourseRecord.getId());
+     }
+     db.createStudent(new StudentRecord(11,"Student 11"));
+     thrown.expect(CourseFullException.class);
+     db.linkStudentCourse(11,stdCourseRecord.getId());
+     
+  }
   private void linkTeacherCourse_nominal_core(Database db)
       throws EntityNotFoundException, EntityDuplicateException {
     db.createTeacher(new TeacherRecord(1000, "Hort Mra", "hmra@rock.edu", "000-00-0498"));

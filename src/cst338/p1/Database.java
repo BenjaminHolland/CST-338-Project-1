@@ -92,7 +92,7 @@ public class Database {
     ensureExistantCourse(courseId);
     CourseRecord course=courses.get(courseId);
     Integer enrolled=(int) getStudentsForCourse(courseId).count();
-    if(course.getCapacity()<enrolled){
+    if(course.getCapacity()<=enrolled){
       throw new CourseFullException();
     }
   }
