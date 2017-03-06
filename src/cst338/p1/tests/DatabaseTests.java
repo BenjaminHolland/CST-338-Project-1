@@ -435,4 +435,16 @@ public class DatabaseTests {
     assertTrue(results.get(0)!=results.get(1)); //Reference Equals.
     assertTrue(results.get(0).getEmail().equals(stdTeacherRecord.getEmail())); //Transitive Equality.
   }
+  
+  @Test
+  public void getTeachersForCourse_nominal() throws EntityDuplicateException, EntityNotFoundException{
+    Database db=new Database();
+    db.createTeacher(stdTeacherRecord);
+    db.createCourse(stdCourseRecord);
+    db.linkTeacherCourse(stdTeacherRecord.getId(),stdCourseRecord.getId());
+    List<TeacherRecord> teachersForCourse=db.getTeachersForCourse(stdCourseRecord.getId()).collect(Collectors.toList());
+    assertEquals(1,teachersForCourse.size());
+    assertEquals(stdTeacherRecord.getId(),teachersForCourse.get(0).getId());
+    
+  }
 }
