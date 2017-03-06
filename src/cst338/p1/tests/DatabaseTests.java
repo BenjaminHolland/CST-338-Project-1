@@ -9,6 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import cst338.p1.CourseFullException;
 import cst338.p1.CourseRecord;
 import cst338.p1.Database;
 import cst338.p1.EntityDuplicateException;
@@ -25,7 +26,7 @@ public class DatabaseTests {
   private final CourseRecord stdCourseRecord =
       new CourseRecord(3000, "CLS-3000 Introduction To Subject", 10, "ROOM 0");
 @Test
-  public void deleteStudent_nominal() throws EntityNotFoundException, EntityDuplicateException {
+  public void deleteStudent_nominal() throws EntityNotFoundException, EntityDuplicateException,CourseFullException {
     Database db=new Database();
     
     // Add Student
@@ -81,7 +82,7 @@ public class DatabaseTests {
    
   }
 @Test
-  public void deleteCourse_nominal() throws EntityNotFoundException, EntityDuplicateException {
+  public void deleteCourse_nominal() throws EntityNotFoundException, EntityDuplicateException,CourseFullException {
 
     Database db=new Database();
     // Add Teacher.
@@ -183,7 +184,7 @@ public class DatabaseTests {
   }
 
   private void linkStudentCourse_nominal_core(Database db)
-      throws EntityNotFoundException, EntityDuplicateException {
+      throws EntityNotFoundException, EntityDuplicateException,CourseFullException {
     db.createStudent(new StudentRecord(1000, "Yar Ogg"));
     db.createCourse(new CourseRecord(2000, "HIS-2000 Mastadon Hunting", 30, "CAVE-99"));
     db.linkStudentCourse(1000, 2000);
@@ -198,14 +199,14 @@ public class DatabaseTests {
   }
 
   @Test
-  public void linkStudentCourse_nominal() throws EntityDuplicateException, EntityNotFoundException {
+  public void linkStudentCourse_nominal() throws EntityDuplicateException, EntityNotFoundException,CourseFullException {
     Database db = new Database();
     linkStudentCourse_nominal_core(db);
   }
 
   @Test
   public void linkStudentCourse_duplicate()
-      throws EntityDuplicateException, EntityNotFoundException {
+      throws EntityDuplicateException, EntityNotFoundException,CourseFullException {
     Database db = new Database();
     db.createStudent(new StudentRecord(1000, "Yar Ogg"));
     db.createCourse(new CourseRecord(2000, "HIS-2000 Mastadon Hunting", 30, "CAVE-99"));
@@ -216,7 +217,7 @@ public class DatabaseTests {
 
   @Test
   public void linkStudentCourse_missingStudent()
-      throws EntityDuplicateException, EntityNotFoundException {
+      throws EntityDuplicateException, EntityNotFoundException,CourseFullException {
     Database db = new Database();
     db.createCourse(
         new CourseRecord(1000, "CST-1000 Introduction to 4th-Dimensional Computers", 10, "EXT-5"));
@@ -227,7 +228,7 @@ public class DatabaseTests {
 
   @Test
   public void linkStudentCourse_missingCourse()
-      throws EntityDuplicateException, EntityNotFoundException {
+      throws EntityDuplicateException, EntityNotFoundException,CourseFullException {
     Database db = new Database();
     db.createStudent(new StudentRecord(1000, "Joe Jim Joseph Juperm"));
     thrown.expect(EntityNotFoundException.class);
@@ -293,7 +294,7 @@ public class DatabaseTests {
 
   @Test
   public void unlinkStudentCourse_nominal()
-      throws EntityDuplicateException, EntityNotFoundException {
+      throws EntityDuplicateException, EntityNotFoundException,CourseFullException {
     Database db = new Database();
     linkStudentCourse_nominal_core(db);
     db.unlinkStudentCourse(1000, 2000);

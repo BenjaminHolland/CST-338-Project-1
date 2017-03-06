@@ -88,6 +88,14 @@ public class Database {
     }
   }
 
+  private void ensureCourseNotFull(Integer courseId) throws EntityNotFoundException,CourseFullException{
+    ensureExistantCourse(courseId);
+    CourseRecord course=courses.get(courseId);
+    Integer enrolled=(int) getStudentsForCourse(courseId).count();
+    if(course.getCapacity()<enrolled){
+      throw new CourseFullException();
+    }
+  }
   private void ensureNonExistantCourse(Integer courseId) throws EntityDuplicateException {
     if (courses.containsKey(courseId)) {
       throw new EntityDuplicateException();
@@ -308,11 +316,13 @@ public class Database {
    * @throws EntityNotFoundException If the specified Teacher or Course is not already in the
    *         database.
    */
+ 
   public void linkStudentCourse(Integer studentId, Integer courseId)
-      throws EntityDuplicateException, EntityNotFoundException {
+      throws EntityDuplicateException, EntityNotFoundException,CourseFullException {
     ensureExistantStudent(studentId);
     ensureExistantCourse(courseId);
     ensureNonExistantStudentCourseLink(studentId, courseId);
+    ensureCourseNotFull(courseId);
     linkStudentCourse.get(studentId).add(courseId);
   }
 
