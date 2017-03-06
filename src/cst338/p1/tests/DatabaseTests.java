@@ -447,4 +447,14 @@ public class DatabaseTests {
     assertEquals(stdTeacherRecord.getId(),teachersForCourse.get(0).getId());
     
   }
+  @Test
+  public void getCoursesForTeacher_nominal() throws EntityDuplicateException, EntityNotFoundException{
+    Database db=new Database();
+    db.createTeacher(stdTeacherRecord);
+    db.createCourse(stdCourseRecord);
+    db.linkTeacherCourse(stdTeacherRecord.getId(),stdCourseRecord.getId());
+    List<CourseRecord> coursesForTeacher=db.getCoursesForTeacher(stdTeacherRecord.getId()).collect(Collectors.toList());
+    assertEquals(1,coursesForTeacher.size());
+    assertEquals(stdCourseRecord.getId(),coursesForTeacher.get(0).getId());
+  }
 }
