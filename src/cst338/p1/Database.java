@@ -144,7 +144,7 @@ public class Database {
   // index on the email field, but as this isn't the goal of the assignment I've chosen to leave
   // it out. It also assumes that email addresses are unique, and so doesn't check for additional
   // matches.
-  // RESOLUTION: emails are not unique. Therefor all teachers with matching emails should be
+  // RESOLUTION: emails are not unique. Therefore all teachers with matching emails should be
   // returnted.
   /**
    * Attempts to find a teacher by their email.
