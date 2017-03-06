@@ -466,7 +466,16 @@ public class DatabaseTests {
     db.linkStudentCourse(stdStudentRecord.getId(),stdCourseRecord.getId());
     List<StudentRecord> studentsForCourse=db.getStudentsForCourse(stdCourseRecord.getId()).collect(Collectors.toList());
     assertEquals(1,studentsForCourse.size());
-    assertEquals(stdStudentRecord.getId(),studentsForCourse.get(0).getId());
-    
+    assertEquals(stdStudentRecord.getId(),studentsForCourse.get(0).getId()); 
+  }
+  @Test
+  public void getCoursesForStudent_nominal() throws EntityNotFoundException, EntityDuplicateException, CourseFullException{
+    Database db=new Database();
+    db.createStudent(stdStudentRecord);
+    db.createCourse(stdCourseRecord);
+    db.linkStudentCourse(stdStudentRecord.getId(),stdCourseRecord.getId());
+    CourseRecord[] coursesForStudent=(CourseRecord[])db.getCoursesForStudent(stdStudentRecord.getId()).toArray();
+    assertEquals(1,coursesForStudent.length);
+    assertEquals(coursesForStudent[0].getId(),stdCourseRecord.getId());
   }
 }
