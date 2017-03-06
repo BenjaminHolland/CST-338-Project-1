@@ -396,7 +396,8 @@ public class Database {
     // If this doesn't end up working, we could easily collect each stream and do record insertion
     // with a normal for/foreach loop, but that's not nearly as fun. It may also just be more
     // idomatic Java to do this.
-
+    
+   
     newData.getStudentStream().forEach(cur -> {
       try {
         this.createStudent(cur);
@@ -404,6 +405,7 @@ public class Database {
         throw new RuntimeException(ex);
       }
     });
+    
     newData.getClassStream().forEach(cur -> {
       try {
         this.createCourse(cur);
@@ -411,6 +413,7 @@ public class Database {
         throw new RuntimeException(ex);
       }
     });
+    
     newData.getTeacherStream().forEach(cur -> {
       try {
         this.createTeacher(cur);
