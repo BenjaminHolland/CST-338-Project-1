@@ -4,7 +4,7 @@ public class TeacherRecord {
   private Integer id;
   private String name;
   private String email;
-  private String ssn;
+  private String phone;
 
   public Integer getId() {
     return id;
@@ -18,15 +18,15 @@ public class TeacherRecord {
     return name;
   }
 
-  public String getSsn() {
-    return ssn;
+  public String getPhone() {
+    return phone;
   }
 
-  public TeacherRecord(Integer id, String name, String email, String ssn) {
+  public TeacherRecord(Integer id, String name, String email, String phone) {
     this.id = id;
     this.name = name;
     this.email = email;
-    this.ssn = ssn;
+    this.phone = phone;
   }
 
 

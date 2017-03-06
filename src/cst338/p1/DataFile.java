@@ -37,8 +37,8 @@ public class DataFile {
     Integer id = Integer.parseUnsignedInt(tokenizer.nextToken());
     String name = tokenizer.nextToken();
     String email = tokenizer.nextToken();
-    String ssn = tokenizer.nextToken();
-    return new TeacherRecord(id, name, email, ssn);
+    String phone = tokenizer.nextToken();
+    return new TeacherRecord(id, name, email, phone);
   }
   /**
    * Loads data from a file into memory. 

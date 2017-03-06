@@ -147,7 +147,7 @@ public class DatabaseTests {
     assertEquals(Integer.valueOf(1000), records.get(0).getId());
     assertEquals("Hop Slammin", records.get(0).getName());
     assertEquals("hslammin@yas.edu", records.get(0).getEmail());
-    assertEquals("123-45-6789", records.get(0).getSsn());
+    assertEquals("123-45-6789", records.get(0).getPhone());
   }
 
   @Test
