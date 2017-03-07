@@ -1,4 +1,4 @@
-package cst338.p1;
+/*package cst338.p1;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -151,3 +151,4 @@ public class School {
   
   public void deleteCourse(Integer classId) {}
 }
+*/
