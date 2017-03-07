@@ -73,12 +73,14 @@ public class Database {
     }
   }
 
-  private void ensureCourseHasSpace(Integer courseId) throws CourseMissingException, CourseFullException{
-    long enrolled=selectCourseStudents(courseId).size();
-    if(enrolled>=selectCourse(courseId).getCapacity()){
+  private void ensureCourseHasSpace(Integer courseId)
+      throws CourseMissingException, CourseFullException {
+    long enrolled = selectCourseStudents(courseId).size();
+    if (enrolled >= selectCourse(courseId).getCapacity()) {
       throw new CourseFullException();
     }
   }
+
   private void ensureEnrollmentExists(Integer studentId, Integer courseId)
       throws EnrollmentMissingException {
     if (!linkStudentCourse.containsKey(studentId)) {
@@ -239,12 +241,34 @@ public class Database {
 
   public List<TeacherRecord> selectCourseTeachers(Integer courseId) throws CourseMissingException {
     ensureCourseExists(courseId);
-    return null;
+    List<TeacherRecord> teachers=new ArrayList<>();
+    for(Entry<Integer,Map<Integer,AssignmentRecord>> entry:linkTeacherCourse.entrySet()){
+      if(entry.getValue().containsKey(courseId)){
+        try{
+          teachers.add(selectTeacher(entry.getKey()));
+        }catch(TeacherMissingException ex){
+          throw new RuntimeException("Assertion Failed: Non-Existant Student Enrolled In Class.",
+              ex);
+        }
+      }
+    }
+    return teachers;
   }
 
   public List<StudentRecord> selectCourseStudents(Integer courseId) throws CourseMissingException {
     ensureCourseExists(courseId);
-    return null;
+    List<StudentRecord> enrolled = new ArrayList<>();
+    for (Entry<Integer, Map<Integer, EnrollmentRecord>> entry : linkStudentCourse.entrySet()) {
+      if (entry.getValue().containsKey(courseId)) {
+        try {
+          enrolled.add(selectStudent(entry.getKey()));
+        } catch (StudentMissingException ex) {
+          throw new RuntimeException("Assertion Failed: Non-Existant Student Enrolled In Class.",
+              ex);
+        }
+      }
+    }
+    return enrolled;
   }
 
   public void createStudent(Integer id, String name) throws StudentDuplicateException {
@@ -271,12 +295,13 @@ public class Database {
   }
 
   public void linkStudentCourse(Integer studentId, Integer courseId)
-      throws EnrollmentDuplicateException, CourseMissingException, StudentMissingException, CourseFullException {
+      throws EnrollmentDuplicateException, CourseMissingException, StudentMissingException,
+      CourseFullException {
     ensureStudentExists(studentId);
     ensureCourseExists(courseId);
     ensureEnrollmentDoesNotExist(studentId, courseId);
     ensureCourseHasSpace(courseId);
-    if(!linkStudentCourse.containsKey(studentId)){
+    if (!linkStudentCourse.containsKey(studentId)) {
       linkStudentCourse.put(studentId, new HashMap<>());
     }
     linkStudentCourse.get(studentId).put(courseId, new EnrollmentRecord(courseId));
@@ -288,7 +313,7 @@ public class Database {
     ensureCourseExists(courseId);
     ensureEnrollmentExists(studentId, courseId);
     linkStudentCourse.get(studentId).remove(courseId);
-    if(linkStudentCourse.get(studentId).isEmpty()){
+    if (linkStudentCourse.get(studentId).isEmpty()) {
       linkStudentCourse.remove(studentId);
     }
   }

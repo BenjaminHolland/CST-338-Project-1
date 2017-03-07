@@ -251,7 +251,6 @@ public class DatabaseTests {
     db.createTeacher(200, "A. Teacher", "ateacher@school.edu", "555-123-4567");
     db.linkTeacherCourse(200, 100);
     AssignmentRecord record = db.selectTeacherCourse(200, 100);
-
   }
 
   @Test
