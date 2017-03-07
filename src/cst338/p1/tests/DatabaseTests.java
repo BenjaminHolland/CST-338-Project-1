@@ -140,7 +140,7 @@ public class DatabaseTests {
   @Test
   public void testDeleteStudent_missing() throws StudentMissingException {
     Database db=new Database();
-    thrown.expect(TeacherMissingException.class);
+    thrown.expect(StudentMissingException.class);
     db.deleteStudent(100);
   }
 
