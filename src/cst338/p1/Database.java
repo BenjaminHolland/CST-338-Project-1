@@ -177,19 +177,25 @@ public class Database {
   
   public void createStudent(Integer id,String name) throws StudentDuplicateException{
     ensureStudentDoesNotExist(id);
+    students.put(id,new StudentRecord(id,name));
   }
   
   public void deleteStudent(Integer id) throws StudentMissingException{
     ensureStudentExists(id);
+    if(linkStudentCourse.containsKey(id)){
+      linkStudentCourse.remove(id);
+    }
+    students.remove(id);
+    
   }
   
   public StudentRecord selectStudent(Integer id) throws StudentMissingException{
     ensureStudentExists(id);
-    return null;
+    return students.get(id);
   }
   
   public List<StudentRecord> selectStudents(){
-    return null;
+    return students.values().stream().collect(Collectors.toList());
   }
   
   public void linkStudentCourse(Integer studentId,Integer courseId) throws EnrollmentDuplicateException, CourseMissingException, StudentMissingException{
