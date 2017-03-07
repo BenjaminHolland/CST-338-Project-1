@@ -42,10 +42,12 @@ public class School {
         }
       }
       
+      
     } catch (IOException e) {
       System.out.println("Error importing data from \"" + path + "\"");
       e.printStackTrace();
     }
+    System.out.println("Done.");
   }
 
   public void schoolInfo() {
@@ -76,7 +78,9 @@ public class School {
   }
 
   public void addCourse(Integer id, String name, Integer capacity, String location) {
-
+    //Add course to database. 
+    //If Failed
+    //Print "Course addition failed - Course number [id] already used.
   }
 
   public void addStudent(Integer id, String name) {
