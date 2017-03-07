@@ -242,12 +242,12 @@ public class DatabaseTests {
   }
 
   @Test
-  public void testLinkTeacherCourse_nominal() {
+  public void testLinkTeacherCourse_nominal() throws CourseDuplicateException, StudentDuplicateException, EnrollmentDuplicateException, CourseMissingException, StudentMissingException {
     Database db = new Database();
     db.createCourse(100, "CRS-100 A Class", 10, "ROOM 1");
-    db.createStudent(200, "A. Student");
-    db.linkStudentCourse(200, 100);
-    EnrollmentRecord record = db.selectStudentCourse(200, 100);
+    db.createTeacher(200, "A. Teacher", "ateacher@school.edu", "555-123-4567");
+    db.linkTeacherCourse(200, 100);
+    AssignmentRecord record = db.selectTeacherCourse(200, 100);
 
   }
 
@@ -255,7 +255,7 @@ public class DatabaseTests {
   public void testUnlinkTeacherCourse_nominal() {
     Database db = new Database();
     db.createCourse(100, "CRS-100 A Class", 10, "ROOM 1");
-    db.createTeacher(200, "A. Teacher", "ateacher@school.edu", "555-123-4567");
+    
     db.linkTeacherCourse(200, 100);
     db.unlinkTeacherCourse(200,100);
     thrown.expect(AssignmentMissingException.class);
