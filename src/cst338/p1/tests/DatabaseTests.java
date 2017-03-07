@@ -510,6 +510,5 @@ public class DatabaseTests {
     List<CourseRecord> coursesForStudent =db.getCoursesForStudent(stdStudentRecord.getId()).collect(Collectors.toList());
     assertEquals(1, coursesForStudent.size());
     assertEquals(coursesForStudent.get(0).getId(), stdCourseRecord.getId());
-  }
-  
+  } 
 }

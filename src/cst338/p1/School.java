@@ -121,7 +121,14 @@ public class School {
   }
 
   public void courseInfo(Integer classId) {
-
+    //Print Line "Course Number: [course.id]"
+    //Print Line "Instructor: [teachers for class.name seperated by ', ']"
+    //Print Line "Course Title: [course.title]"
+    //Print Line "Room: [course.location]"
+    //Print Line "Total Enrolled: [enrolled student count]"
+    //Print Line "Course Average: [average score of enrolled students]"
+    
+    
   }
 
   public CourseRecord getCourse(Integer classId) {
