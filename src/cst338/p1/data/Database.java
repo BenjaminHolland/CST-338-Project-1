@@ -17,6 +17,7 @@ import cst338.p1.AssignmentMissingException;
 import cst338.p1.CourseDuplicateException;
 import cst338.p1.CourseFullException;
 import cst338.p1.CourseMissingException;
+import cst338.p1.CourseNotEmptyException;
 import cst338.p1.EnrollmentDuplicateException;
 import cst338.p1.EnrollmentMissingException;
 import cst338.p1.StudentDuplicateException;
@@ -112,6 +113,12 @@ public class Database {
     }
   }
 
+  private void ensureCourseIsEmpty(Integer courseId) throws CourseMissingException, CourseNotEmptyException{
+    List<StudentRecord> students=selectCourseStudents(courseId);
+    if(!students.isEmpty()){
+      throw new CourseNotEmptyException();
+    }
+  }
   private void ensureAssignmentDoesNotExist(Integer teacherId, Integer courseId)
       throws AssignmentDuplicateException {
     if (linkTeacherCourse.containsKey(teacherId)) {
@@ -194,10 +201,11 @@ public class Database {
     courses.put(id, new CourseRecord(id, title, capacity, location));
   }
 
-  public void deleteCourse(Integer id) throws CourseMissingException {
+  public void deleteCourse(Integer id) throws CourseMissingException, CourseNotEmptyException {
     ensureCourseExists(id);
-    List<Integer> emptyAssignments = new ArrayList<>();
-
+    ensureCourseIsEmpty(id);
+    /*
+    
     // Remove class from student enrollment lists.
     List<Integer> emptyEnrollments = new ArrayList<>();
     for (Entry<Integer, Map<Integer, EnrollmentRecord>> enrollment : linkStudentCourse.entrySet()) {
@@ -211,8 +219,10 @@ public class Database {
     for (Integer emptyId : emptyEnrollments) {
       linkStudentCourse.remove(emptyId);
     }
-
+*/
     // Remove course from teacher assignments.
+    List<Integer> emptyAssignments = new ArrayList<>();
+    
     for (Entry<Integer, Map<Integer, AssignmentRecord>> assignment : linkTeacherCourse.entrySet()) {
       assignment.getValue().remove(id);
       if (assignment.getValue().isEmpty()) {

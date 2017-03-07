@@ -302,6 +302,7 @@ public class School {
 
   public void deleteCourse(Integer courseId) {
     try {
+      
       database.deleteCourse(courseId);
     } catch (CourseMissingException e) {
       // TODO Auto-generated catch block
