@@ -15,6 +15,7 @@ import javax.naming.OperationNotSupportedException;
 import cst338.p1.AssignmentDuplicateException;
 import cst338.p1.AssignmentMissingException;
 import cst338.p1.CourseDuplicateException;
+import cst338.p1.CourseFullException;
 import cst338.p1.CourseMissingException;
 import cst338.p1.EnrollmentDuplicateException;
 import cst338.p1.EnrollmentMissingException;
@@ -72,6 +73,12 @@ public class Database {
     }
   }
 
+  private void ensureCourseHasSpace(Integer courseId) throws CourseMissingException, CourseFullException{
+    long enrolled=selectCourseStudents(courseId).size();
+    if(enrolled>=selectCourse(courseId).getCapacity()){
+      throw new CourseFullException();
+    }
+  }
   private void ensureEnrollmentExists(Integer studentId, Integer courseId)
       throws EnrollmentMissingException {
     if (!linkStudentCourse.containsKey(studentId)) {
@@ -264,10 +271,11 @@ public class Database {
   }
 
   public void linkStudentCourse(Integer studentId, Integer courseId)
-      throws EnrollmentDuplicateException, CourseMissingException, StudentMissingException {
+      throws EnrollmentDuplicateException, CourseMissingException, StudentMissingException, CourseFullException {
     ensureStudentExists(studentId);
     ensureCourseExists(courseId);
     ensureEnrollmentDoesNotExist(studentId, courseId);
+    ensureCourseHasSpace(courseId);
     if(!linkStudentCourse.containsKey(studentId)){
       linkStudentCourse.put(studentId, new HashMap<>());
     }
