@@ -9,6 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import cst338.p1.AssignmentDuplicateException;
 import cst338.p1.AssignmentMissingException;
 import cst338.p1.AssignmentRecord;
 import cst338.p1.CourseDuplicateException;
@@ -31,7 +32,7 @@ import cst338.p1.TeacherRecord;
 public class DatabaseTests {
   @Rule
   public ExpectedException thrown = ExpectedException.none();
- 
+
   @Test
   public void testCreateTeacher_nominal() throws TeacherDuplicateException {
     Database db = new Database();
@@ -242,7 +243,9 @@ public class DatabaseTests {
   }
 
   @Test
-  public void testLinkTeacherCourse_nominal() throws CourseDuplicateException, StudentDuplicateException, EnrollmentDuplicateException, CourseMissingException, StudentMissingException {
+  public void testLinkTeacherCourse_nominal()
+      throws CourseDuplicateException, CourseMissingException, TeacherDuplicateException,
+      AssignmentDuplicateException, TeacherMissingException, AssignmentMissingException {
     Database db = new Database();
     db.createCourse(100, "CRS-100 A Class", 10, "ROOM 1");
     db.createTeacher(200, "A. Teacher", "ateacher@school.edu", "555-123-4567");
@@ -252,13 +255,15 @@ public class DatabaseTests {
   }
 
   @Test
-  public void testUnlinkTeacherCourse_nominal() {
+  public void testUnlinkTeacherCourse_nominal()
+      throws CourseDuplicateException, TeacherDuplicateException, AssignmentDuplicateException,
+      CourseMissingException, TeacherMissingException, AssignmentMissingException {
     Database db = new Database();
     db.createCourse(100, "CRS-100 A Class", 10, "ROOM 1");
     db.createTeacher(200, "A. Teacher", "ateacher@school.edu", "555-123-4567");
     db.linkTeacherCourse(200, 100);
-    db.unlinkTeacherCourse(200,100);
+    db.unlinkTeacherCourse(200, 100);
     thrown.expect(AssignmentMissingException.class);
-    db.selectTeacherCourse(200,100);
+    db.selectTeacherCourse(200, 100);
   }
 }
