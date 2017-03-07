@@ -82,8 +82,6 @@ public class School {
         System.out.println("\tName: " + teacher.getName());
         // "\tPhone: [teacher.phone]\n"
         System.out.println("\tPhone: " + teacher.getPhone());
-        // "\n
-        System.out.println();
       }
 
     } else {
@@ -94,7 +92,7 @@ public class School {
   }
 
   public void addInstructor(Integer id, String name, String email, String phone)
-      throws TeacherDuplicateException {
+       {
     try {
       database.createTeacher(id, name, email, phone);
     } catch (TeacherDuplicateException ex) {
@@ -295,6 +293,17 @@ public class School {
     } catch (CourseMissingException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
+    }
+  }
+  
+  public Course getCourse(Integer courseId){
+    try{
+      CourseRecord record=database.selectCourse(courseId);
+      return new Course(database,courseId);
+    }catch(CourseMissingException ex){
+      //TODO: FIX THIS ERROR
+      System.out.println("ERROR: MISSING COURSE");
+      throw new RuntimeException(ex);
     }
   }
 }

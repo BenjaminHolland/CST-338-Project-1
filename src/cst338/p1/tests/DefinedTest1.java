@@ -11,6 +11,7 @@ import cst338.p1.School;
 
 public class DefinedTest1 {
 
+  //TODO: Fix spacing anomonly after recieving instructions from instructor.
   @Test
   public void run() throws IOException {
     File data1=new File("./data/sample_test1.txt");

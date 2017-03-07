@@ -17,6 +17,9 @@ public class CourseRecord {
   public String getLocation() {
     return location;
   }
+  public void setLocation(String location){
+    this.location=location;
+  }
   public CourseRecord(Integer id,String title,Integer capacity,String location){
     this.id=id;
     this.title=title;
