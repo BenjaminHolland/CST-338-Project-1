@@ -59,6 +59,15 @@ public class School {
   }
 
   public void searchByEmail(String email) {
+    //Print "Search key: [email]\n"
+    //If Has Result:
+    //For each teacher in result, print 
+    //  "\tEmployee Number: [teacher.id]\n"
+    //  "\tName: [teacher.name]\n"
+    //  "\tPhone: [teacher.phone]\n"
+    //  "\n
+    //If No result
+    //Print "\tNo employee with email [email]\n"
     
   }
 
