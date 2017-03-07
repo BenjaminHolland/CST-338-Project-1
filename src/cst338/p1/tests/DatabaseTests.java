@@ -32,6 +32,12 @@ public class DatabaseTests {
   public void testCreateTeacher_nominal() throws TeacherDuplicateException {
     Database db=new Database();
     db.createTeacher(100, "Teacher 1", "t1@school.edu","555-123-4567");
+    List<TeacherRecord> teachers=db.selectTeachers();
+    assertEquals(1,teachers.size());
+    assertEquals(Integer.valueOf(100),teachers.get(0).getId());
+    assertEquals("Teacher 1",teachers.get(0).getName());
+    assertEquals("t1@school.edu",teachers.get(0).getEmail());
+    assertEquals("555-123-4567",teachers.get(0).getPhone());
   }
 
   @Test
@@ -47,6 +53,9 @@ public class DatabaseTests {
     Database db=new Database();
     db.createTeacher(100, "Teacher 1", "t1@school.edu","555-123-4567");
     db.deleteTeacher(100);
+    List<TeacherRecord> teachers=db.selectTeachers();
+    assertEquals(0,teachers.size());
+    
   }
 
   @Test
@@ -61,6 +70,8 @@ public class DatabaseTests {
     Database db=new Database();
     db.createTeacher(100, "Teacher 1", "t1@school.edu","555-123-4567");
     TeacherRecord record=db.selectTeacher(100);
+    assertEquals(Integer.valueOf(100),record.getId());
+    
   }
 
   @Test
@@ -71,8 +82,20 @@ public class DatabaseTests {
   }
 
   @Test
-  public void testSelectTeacherByEmail_nominal() throws TeacherMissingException {
-    
+  public void testSelectTeacherByEmail_nominal() throws TeacherMissingException, TeacherDuplicateException {
+    Database db=new Database();
+    db.createTeacher(100, "Teacher 1", "t1@school.edu", "555-123-4567");
+    db.createTeacher(200, "Temp 1", "t1@school.edu", "555-234-5678");
+    db.createTeacher(300, "Teacher 2", "t2@school.edu", "555-345-6789");
+    List<TeacherRecord> zero=db.selectTeachersByEmail("none@school.edu");
+    List<TeacherRecord> one=db.selectTeachersByEmail("t2@school.edu");
+    List<TeacherRecord> two=db.selectTeachersByEmail("t1@school.edu");
+    assertEquals(0,zero.size());
+    assertEquals(1,one.size());
+    assertEquals(Integer.valueOf(300),one.get(0).getId());
+    assertEquals(2,two.size());
+    assertEquals(Integer.valueOf(100),two.get(0).getId());
+    assertEquals(Integer.valueOf(200),two.get(1).getId());
   }
 
  
