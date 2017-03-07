@@ -33,21 +33,21 @@ public class School {
       for(TeacherRecord teacher:file.getTeacherStream().collect(Collectors.toList())){
         try{
           database.createTeacher(teacher.getId(),teacher.getName(),teacher.getEmail(),teacher.getPhone());
-        }catch(EntityDuplicateException ex){
+        }catch(TeacherDuplicateException ex){
           System.out.println("Instructor info reading failed - Employee number "+teacher.getId()+" already used.");
         }
       }
       for(CourseRecord course:file.getClassStream().collect(Collectors.toList())){
         try{
           database.createCourse(course.getId(),course.getTitle(),course.getCapacity(),course.getLocation());
-        }catch(EntityDuplicateException ex){
+        }catch(CourseDuplicateException ex){
           System.out.println("Course info reading failed - Course ID "+course.getId()+" already used.");
         }
       }
       for(StudentRecord student:file.getStudentStream().collect(Collectors.toList())){
         try{
           database.createStudent(student.getId(),student.getName());
-        }catch(EntityDuplicateException ex){
+        }catch(StudentDuplicateException ex){
           System.out.println("Student info reading failed - Student ID "+student.getId()+" already used.");
         }
       }
@@ -61,7 +61,6 @@ public class School {
     System.out.println("Done.");
   }
 
- 
 
   public void searchByEmail(String email) {
     //Print "Search key: [email]\n"
@@ -152,7 +151,7 @@ public class School {
   }
 
   
-
+  
   public void graduateStudent(Integer studentId) {
     
   }
@@ -201,7 +200,7 @@ public class School {
       System.out.println("\t"+course.getTitle());
     }
     //Print "Student Information\n"
-    System.out.println("Student Information\n");
+    System.out.println("Student Information");
     //For each student, print "\t[student.name]\n"
     for(StudentRecord student:database.selectStudents()){
       System.out.println("\t"+student.getName());
