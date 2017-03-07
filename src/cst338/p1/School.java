@@ -211,7 +211,7 @@ public class School {
 
   }
   
-  public void courseInfo(Integer courseId) throws CourseMissingException, EnrollmentMissingException, StudentMissingException {
+  public void courseInfo(Integer courseId) {
       try{
       CourseRecord record=database.selectCourse(courseId);
       List<StudentRecord> enrolled=database.selectCourseStudents(courseId);
