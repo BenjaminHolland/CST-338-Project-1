@@ -80,12 +80,12 @@ public class Database {
     }
   }
   
-  public void createTeacher(Integer id,String name,String email,String phone){
-    
+  public void createTeacher(Integer id,String name,String email,String phone) throws TeacherDuplicateException{
+    ensureTeacherDoesNotExist(id);
   }
   
-  public void deleteTeacher(Integer id){
-    
+  public void deleteTeacher(Integer id) throws TeacherMissingException{
+    ensureTeacherExists(id);
   }
   
   public Optional<TeacherRecord> selectTeacher(Integer id){
@@ -96,25 +96,30 @@ public class Database {
     return teachers.values().stream();
   }
   
-  public void linkTeacherCourse(Integer teacherId,Integer courseId){
+  public void linkTeacherCourse(Integer teacherId,Integer courseId) throws AssignmentDuplicateException, CourseMissingException, TeacherMissingException{
+    ensureTeacherExists(teacherId);
+    ensureCourseExists(courseId);
+    ensureAssignmentDoesNotExist(teacherId,courseId);
+  }
+  
+  public void unlinkTeacherCourse(Integer teacherId,Integer courseId) throws AssignmentMissingException, CourseMissingException, TeacherMissingException{
+    ensureTeacherExists(teacherId);
+    ensureCourseExists(courseId);
+    ensureAssignmentExists(teacherId, courseId);
+  }
+  
+  public Stream<AssignmentRecord> selectTeacherCourses(Integer id) throws TeacherMissingException{
+    ensureTeacherExists(id);
     
   }
   
-  public void unlinkTeacherCourse(Integer teacherId,Integer courseId){
-    
+  
+  public void createCourse(Integer id,String title,Integer capacity,String location) throws CourseDuplicateException{
+    ensureCourseDoesNotExist(id);
   }
   
-  public Stream<AssignmentRecord> selectTeacherCourses(Integer id){
-    
-  }
-  
-  
-  public void createCourse(Integer id,String title,Integer capacity,String location){
-    
-  }
-  
-  public void deleteCourse(Integer id){
-    
+  public void deleteCourse(Integer id) throws CourseMissingException{
+    ensureCourseExists(id);
   }
   
   public Optional<CourseRecord> selectCourse(Integer id){
@@ -125,21 +130,21 @@ public class Database {
     return courses.values().stream();
   }
   
-  public Stream<Integer> selectCourseTeachers(Integer courseId){
-    
+  public Stream<TeacherRecord> selectCourseTeachers(Integer courseId) throws CourseMissingException{
+    ensureCourseExists(courseId);
   }
   
-  public Stream<Integer> selectCourseStudents(Integer courseId){
-    
+  public Stream<StudentRecord> selectCourseStudents(Integer courseId) throws CourseMissingException{
+    ensureCourseExists(courseId);
   }
   
   
-  public void createStudent(Integer id,String name){
-    
+  public void createStudent(Integer id,String name) throws StudentDuplicateException{
+    ensureStudentDoesNotExist(id);
   }
   
   public void deleteStudent(Integer id){
-    
+    ensureStudentExists(id);
   }
   
   public Optional<StudentRecord> selectStudent(Integer id){
