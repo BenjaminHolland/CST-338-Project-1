@@ -11,7 +11,6 @@ import org.junit.rules.ExpectedException;
 
 import cst338.p1.AssignmentDuplicateException;
 import cst338.p1.AssignmentMissingException;
-import cst338.p1.AssignmentRecord;
 import cst338.p1.CourseDuplicateException;
 import cst338.p1.CourseFullException;
 import cst338.p1.CourseMissingException;
@@ -23,6 +22,7 @@ import cst338.p1.StudentDuplicateException;
 import cst338.p1.StudentMissingException;
 import cst338.p1.TeacherDuplicateException;
 import cst338.p1.TeacherMissingException;
+import cst338.p1.data.AssignmentRecord;
 import cst338.p1.data.CourseRecord;
 import cst338.p1.data.Database;
 import cst338.p1.data.EnrollmentRecord;

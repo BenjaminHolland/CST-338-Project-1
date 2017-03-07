@@ -1,4 +1,4 @@
-package cst338.p1;
+package cst338.p1.data;
 
 public class AssignmentRecord {
   private Integer courseId;
