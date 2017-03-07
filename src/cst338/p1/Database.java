@@ -268,6 +268,10 @@ public class Database {
     ensureStudentExists(studentId);
     ensureCourseExists(courseId);
     ensureEnrollmentExists(studentId, courseId);
+    linkStudentCourse.get(studentId).remove(courseId);
+    if(linkStudentCourse.get(studentId).isEmpty()){
+      linkStudentCourse.remove(studentId);
+    }
   }
 
   public List<EnrollmentRecord> selectStudentCourses(Integer id) throws StudentMissingException {
