@@ -93,6 +93,7 @@ public class Database {
     }
   }
   
+  
   public void createTeacher(Integer id,String name,String email,String phone) throws TeacherDuplicateException{
     ensureTeacherDoesNotExist(id);
     teachers.put(id, new TeacherRecord(id,name,email,phone));
@@ -112,7 +113,9 @@ public class Database {
   public List<TeacherRecord> selectTeachers(){
     return (List<TeacherRecord>) teachers.values();
   }
-  
+  public List<TeacherRecord> selectTeachersByEmail(String email){
+    return teachers.values().stream().filter(teacher->teacher.getEmail().equals(email)).collect(Collectors.toList());
+  }
   public void linkTeacherCourse(Integer teacherId,Integer courseId) throws AssignmentDuplicateException, CourseMissingException, TeacherMissingException{
     ensureTeacherExists(teacherId);
     ensureCourseExists(courseId);
