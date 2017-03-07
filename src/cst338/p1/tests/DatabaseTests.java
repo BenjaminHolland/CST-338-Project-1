@@ -14,6 +14,8 @@ import cst338.p1.CourseRecord;
 import cst338.p1.Database;
 import cst338.p1.EntityDuplicateException;
 import cst338.p1.EntityMissingException;
+import cst338.p1.StudentDuplicateException;
+import cst338.p1.StudentMissingException;
 import cst338.p1.StudentRecord;
 import cst338.p1.TeacherDuplicateException;
 import cst338.p1.TeacherMissingException;
@@ -96,5 +98,60 @@ public class DatabaseTests {
     assertEquals(2,two.size());
     assertEquals(Integer.valueOf(100),two.get(0).getId());
     assertEquals(Integer.valueOf(200),two.get(1).getId());
+  }
+  
+  @Test
+  public void testCreateStudent_nominal() throws StudentDuplicateException {
+    Database db=new Database();
+    db.createStudent(100, "Student 1");
+    List<TeacherRecord> teachers=db.selectTeachers();
+    assertEquals(1,teachers.size());
+    assertEquals(Integer.valueOf(100),teachers.get(0).getId());
+    assertEquals("Teacher 1",teachers.get(0).getName());
+    assertEquals("t1@school.edu",teachers.get(0).getEmail());
+    assertEquals("555-123-4567",teachers.get(0).getPhone());
+  }
+
+  @Test
+  public void testCreateStudent_duplicate() throws StudentDuplicateException {
+    Database db=new Database();
+
+    db.createStudent(100, "Student 1");
+    thrown.expect(StudentDuplicateException.class);
+
+    db.createStudent(100, "Student 1");
+  }
+
+  @Test
+  public void testDeleteStudent_nominal() throws StudentMissingException, StudentDuplicateException {
+    Database db=new Database();
+    db.createStudent(100, "Student 1");
+    db.deleteStudent(100);
+    List<TeacherRecord> teachers=db.selectTeachers();
+    assertEquals(0,teachers.size());
+    
+  }
+
+  @Test
+  public void testDeleteStudent_missing() throws StudentMissingException {
+    Database db=new Database();
+    thrown.expect(TeacherMissingException.class);
+    db.deleteStudent(100);
+  }
+
+  @Test
+  public void testSelectStudent_nominal() throws StudentMissingException,  StudentDuplicateException {
+    Database db=new Database();
+    db.createStudent(100, "Student 1");
+    StudentRecord record=db.selectStudent(100);
+    assertEquals(Integer.valueOf(100),record.getId());
+    
+  }
+
+  @Test
+  public void testSelectStudent_missing() throws StudentMissingException {
+    Database db=new Database();
+    thrown.expect(StudentMissingException.class);
+    db.selectStudent(100);
   }
 }
