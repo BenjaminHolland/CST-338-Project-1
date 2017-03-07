@@ -111,7 +111,7 @@ public class Database {
   }
   
   public List<TeacherRecord> selectTeachers(){
-    return (List<TeacherRecord>) teachers.values();
+    return (List<TeacherRecord>) teachers.values().stream().collect(Collectors.toList());
   }
   public List<TeacherRecord> selectTeachersByEmail(String email){
     return teachers.values().stream().filter(teacher->teacher.getEmail().equals(email)).collect(Collectors.toList());
