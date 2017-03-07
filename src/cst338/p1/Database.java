@@ -145,10 +145,12 @@ public class Database {
   
   public void createCourse(Integer id,String title,Integer capacity,String location) throws CourseDuplicateException{
     ensureCourseDoesNotExist(id);
+    courses.put(id,new CourseRecord(id,title,capacity,location));
   }
   
   public void deleteCourse(Integer id) throws CourseMissingException{
     ensureCourseExists(id);
+   
   }
   
   public CourseRecord selectCourse(Integer id){
