@@ -69,15 +69,28 @@ public class School {
 
   public void searchByEmail(String email) {
     // Print "Search key: [email]\n"
+    System.out.println("Search key: " + email);
+    List<TeacherRecord> teachersWithMatchingEmail = database.selectTeachersByEmail(email);
     // If Has Result:
-    // For each teacher in result, print
-    // "\tEmployee Number: [teacher.id]\n"
-    // "\tName: [teacher.name]\n"
-    // "\tPhone: [teacher.phone]\n"
-    // "\n
-    // If No result
-    // Print "\tNo employee with email [email]\n"
+    if (!teachersWithMatchingEmail.isEmpty()) {
+      // For each teacher in result, print
+      for (TeacherRecord teacher : teachersWithMatchingEmail) {
+        // "\tEmployee Number: [teacher.id]\n"
+        System.out.println("\tEmployee Number: " + teacher.getId());
 
+        // "\tName: [teacher.name]\n"
+        System.out.println("\tName: " + teacher.getName());
+        // "\tPhone: [teacher.phone]\n"
+        System.out.println("\tPhone: " + teacher.getPhone());
+        // "\n
+        System.out.println();
+      }
+
+    } else {
+      // If No result
+      // Print "\tNo employee with email [email]\n"
+      System.out.println("\tNo employee with email " + email);
+    }
   }
 
   public void addInstructor(Integer id, String name, String email, String phone)
