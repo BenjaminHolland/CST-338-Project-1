@@ -1,5 +1,6 @@
 package cst338.p1;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 import java.io.IOException;
@@ -210,12 +211,12 @@ public class School {
 
   }
   
-  public void courseInfo(Integer courseId) {
-    try{
+  public void courseInfo(Integer courseId) throws CourseMissingException, EnrollmentMissingException, StudentMissingException {
+      try{
       CourseRecord record=database.selectCourse(courseId);
       List<StudentRecord> enrolled=database.selectCourseStudents(courseId);
       List<TeacherRecord> teaching=database.selectCourseTeachers(courseId);
-      List<Double> scores;
+      List<Double> scores=new ArrayList<>();
       for(StudentRecord student:enrolled){
         EnrollmentRecord enrollment=database.selectStudentCourse(student.getId(), courseId);
         scores.add(enrollment.getScore());
@@ -240,7 +241,13 @@ public class School {
       System.out.println("Total Enrolled: "+enrolled.size());
       //Print Line "Course Average: [average score of enrolled students]"
       System.out.println("Course Average: "+average);
-    }
+      }catch(CourseMissingException ex){
+        //TODO: Print Error message.
+      }catch(EnrollmentMissingException ex){
+        //TODO: Print error message;
+      }catch(StudentMissingException ex){
+        //TODO: Print error message.
+      }
   }
   
   public void deleteCourse(Integer courseId) {
