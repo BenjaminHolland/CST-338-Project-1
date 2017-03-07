@@ -88,12 +88,12 @@ public class Database {
     ensureTeacherExists(id);
   }
   
-  public Optional<TeacherRecord> selectTeacher(Integer id){
-    return Optional.ofNullable(teachers.get(id));
+  public TeacherRecord selectTeacher(Integer id) throws TeacherMissingException{
+    ensureTeacherExists(id);
   }
   
-  public Stream<TeacherRecord> selectTeachers(){
-    return teachers.values().stream();
+  public List<TeacherRecord> selectTeachers(){
+    
   }
   
   public void linkTeacherCourse(Integer teacherId,Integer courseId) throws AssignmentDuplicateException, CourseMissingException, TeacherMissingException{
@@ -122,19 +122,19 @@ public class Database {
     ensureCourseExists(id);
   }
   
-  public Optional<CourseRecord> selectCourse(Integer id){
-    return Optional.ofNullable(courses.get(id));
+  public CourseRecord selectCourse(Integer id){
+    ensureCourseExists(id);
   }
   
-  public Stream<CourseRecord> selectCourses(){
-    return courses.values().stream();
+  public List<CourseRecord> selectCourses(){
+    
   }
   
-  public Stream<TeacherRecord> selectCourseTeachers(Integer courseId) throws CourseMissingException{
+  public List<TeacherRecord> selectCourseTeachers(Integer courseId) throws CourseMissingException{
     ensureCourseExists(courseId);
   }
   
-  public Stream<StudentRecord> selectCourseStudents(Integer courseId) throws CourseMissingException{
+  public List<StudentRecord> selectCourseStudents(Integer courseId) throws CourseMissingException{
     ensureCourseExists(courseId);
   }
   
@@ -146,8 +146,8 @@ public class Database {
     ensureStudentExists(id);
   }
   
-  public Optional<StudentRecord> selectStudent(Integer id){
-    return Optional.ofNullable(students.get(id));
+  public StudentRecord selectStudent(Integer id) throws StudentMissingException{
+    ensureStudentExists(id);
   }
   
   public Stream<StudentRecord> selectStudents(){
@@ -166,11 +166,11 @@ public class Database {
     ensureEnrollmentExists(studentId, courseId);
   }
   
-  public Stream<EnrollmentRecord> selectStudentCourses(Integer id) throws StudentMissingException{
+  public List<EnrollmentRecord> selectStudentCourses(Integer id) throws StudentMissingException{
     ensureStudentExists(id);
   }
   
-  public EnrollmentRecord selectStudentCourse(Integer studentId,Integer courseId){
+  public EnrollmentRecord selectStudentCourse(Integer studentId,Integer courseId) throws EnrollmentMissingException, CourseMissingException, StudentMissingException{
    ensureStudentExists(studentId);
    ensureCourseExists(courseId);
    ensureEnrollmentExists(studentId,courseId);
