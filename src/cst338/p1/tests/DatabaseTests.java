@@ -97,7 +97,4 @@ public class DatabaseTests {
     assertEquals(Integer.valueOf(100),two.get(0).getId());
     assertEquals(Integer.valueOf(200),two.get(1).getId());
   }
-
- 
-
 }

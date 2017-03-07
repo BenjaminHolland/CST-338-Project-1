@@ -6,18 +6,32 @@ public class EntityDuplicateException extends Exception {
    * 
    */
   private static final long serialVersionUID = 1L;
-  public EntityDuplicateException(){
-    this("The entity already exists.");
+
+  public EntityDuplicateException() {
+    super();
+    // TODO Auto-generated constructor stub
   }
-  public EntityDuplicateException(String message){
-    this(message,null);
+
+  public EntityDuplicateException(String arg0, Throwable arg1, boolean arg2, boolean arg3) {
+    super(arg0, arg1, arg2, arg3);
+    // TODO Auto-generated constructor stub
   }
-  public EntityDuplicateException(Throwable cause){
-    this("The entity already exists.",cause);
+
+  public EntityDuplicateException(String arg0, Throwable arg1) {
+    super(arg0, arg1);
+    // TODO Auto-generated constructor stub
   }
-  public EntityDuplicateException(String message,Throwable cause){
-    super(message,cause);
+
+  public EntityDuplicateException(String arg0) {
+    super(arg0);
+    // TODO Auto-generated constructor stub
   }
+
+  public EntityDuplicateException(Throwable arg0) {
+    super(arg0);
+    // TODO Auto-generated constructor stub
+  }
+  
   
 
 }

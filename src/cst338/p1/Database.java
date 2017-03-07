@@ -156,20 +156,23 @@ public class Database {
    
   }
   
-  public CourseRecord selectCourse(Integer id){
+  public CourseRecord selectCourse(Integer id) throws CourseMissingException{
     ensureCourseExists(id);
+    return null;
   }
   
   public List<CourseRecord> selectCourses(){
-    
+    return null;
   }
   
   public List<TeacherRecord> selectCourseTeachers(Integer courseId) throws CourseMissingException{
     ensureCourseExists(courseId);
+    return null;
   }
   
   public List<StudentRecord> selectCourseStudents(Integer courseId) throws CourseMissingException{
     ensureCourseExists(courseId);
+    return null;
   }
   
   public void createStudent(Integer id,String name) throws StudentDuplicateException{
@@ -182,10 +185,11 @@ public class Database {
   
   public StudentRecord selectStudent(Integer id) throws StudentMissingException{
     ensureStudentExists(id);
+    return null;
   }
   
   public List<StudentRecord> selectStudents(){
-    return students.values().stream();
+    return null;
   }
   
   public void linkStudentCourse(Integer studentId,Integer courseId) throws EnrollmentDuplicateException, CourseMissingException, StudentMissingException{
@@ -202,12 +206,14 @@ public class Database {
   
   public List<EnrollmentRecord> selectStudentCourses(Integer id) throws StudentMissingException{
     ensureStudentExists(id);
+    return null;
   }
   
   public EnrollmentRecord selectStudentCourse(Integer studentId,Integer courseId) throws EnrollmentMissingException, CourseMissingException, StudentMissingException{
    ensureStudentExists(studentId);
    ensureCourseExists(courseId);
    ensureEnrollmentExists(studentId,courseId);
+   return null;
    
   }
   
