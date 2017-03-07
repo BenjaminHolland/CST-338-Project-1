@@ -53,7 +53,7 @@ public class Database {
   
   private void ensureStudentDoesNotExist(Integer id) throws StudentDuplicateException{
     if(students.containsKey(id)){
-      throw new StudentDuplicateException()
+      throw new StudentDuplicateException();
     }
   }
   
@@ -133,7 +133,11 @@ public class Database {
   
   public List<AssignmentRecord> selectTeacherCourses(Integer id) throws TeacherMissingException{
     ensureTeacherExists(id);
-    
+    if(linkTeacherCourse.containsKey(id)){
+      return (List<AssignmentRecord>) linkTeacherCourse.get(id).values();
+    }else{
+      return new ArrayList<>();
+    }
   }
   
   
@@ -173,7 +177,7 @@ public class Database {
     ensureStudentExists(id);
   }
   
-  public Stream<StudentRecord> selectStudents(){
+  public List<StudentRecord> selectStudents(){
     return students.values().stream();
   }
   
