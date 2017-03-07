@@ -14,6 +14,7 @@ import cst338.p1.AssignmentMissingException;
 import cst338.p1.CourseDuplicateException;
 import cst338.p1.CourseFullException;
 import cst338.p1.CourseMissingException;
+import cst338.p1.CourseNotEmptyException;
 import cst338.p1.EnrollmentDuplicateException;
 import cst338.p1.EnrollmentMissingException;
 import cst338.p1.EntityDuplicateException;
@@ -186,7 +187,7 @@ public class DatabaseTests {
   }
 
   @Test
-  public void testDeleteCourse_nominal() throws CourseMissingException, CourseDuplicateException {
+  public void testDeleteCourse_nominal() throws CourseMissingException, CourseDuplicateException, CourseNotEmptyException {
     Database db = new Database();
     db.createCourse(100, "CRS-100 A Course", 10, "ROOM 1");
     db.deleteCourse(100);
@@ -196,7 +197,7 @@ public class DatabaseTests {
   }
 
   @Test
-  public void testDeleteCourse_missing() throws CourseMissingException {
+  public void testDeleteCourse_missing() throws CourseMissingException, CourseNotEmptyException {
     Database db = new Database();
     thrown.expect(CourseMissingException.class);
     db.deleteCourse(100);
