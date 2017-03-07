@@ -50,7 +50,7 @@ public class School {
   public void graduateStudent(Integer studentId){
     
   }
-  public void assignScore(Integer classId,Integer studentId,Double score){
+  public void putScore(Integer classId,Integer studentId,Double score){
     
   }
   public void courseInfo(Integer classId){
@@ -63,6 +63,5 @@ public class School {
     
   }
   public void deleteCourse(Integer classId){
-    
   }
 }
