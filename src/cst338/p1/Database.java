@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.naming.OperationNotSupportedException;
@@ -20,8 +21,8 @@ public class Database {
   private final Map<Integer, StudentRecord> students;
   private final Map<Integer, TeacherRecord> teachers;
   private final Map<Integer, CourseRecord> courses;
-  private final Map<Integer, List<EnrollmentRecord>> linkStudentCourse;
-  private final Map<Integer, List<AssignmentRecord>> linkTeacherCourse;
+  private final Map<Integer, Map<Integer,EnrollmentRecord>> linkStudentCourse;
+  private final Map<Integer, Map<Integer,AssignmentRecord>> linkTeacherCourse;
 
   private void ensureTeacherExists(Integer id) throws TeacherMissingException{
     if(!teachers.containsKey(id)){
@@ -57,58 +58,80 @@ public class Database {
   }
   
   private void ensureEnrollmentExists(Integer studentId,Integer courseId) throws EnrollmentMissingException{
-    if(selectStudentCourses(studentId).filter(enrollment->enrollment.getCourseId().equals(courseId)).count()==0){
+    if(!linkStudentCourse.containsKey(studentId)){
       throw new EnrollmentMissingException();
+    }else{
+      if(!linkStudentCourse.get(studentId).containsKey(courseId)){
+        throw new EnrollmentMissingException();
+      }
     }
   }
   
   private void ensureEnrollmentDoesNotExist(Integer studentId,Integer courseId) throws EnrollmentDuplicateException{
-    if(selectStudentCourses(studentId).filter(enrollment->enrollment.getCourseId().equals(courseId)).count()>0){
-      throw new EnrollmentDuplicateException();
+    if(linkStudentCourse.containsKey(studentId)){
+      if(linkStudentCourse.get(studentId).containsKey(courseId)){
+        throw new EnrollmentDuplicateException();
+      }
     }
   }
   
   private void ensureAssignmentExists(Integer teacherId,Integer courseId) throws AssignmentMissingException{
-    if(selectTeacherCourses(teacherId).filter(assignment->assignment.getCourseId().equals(courseId)).count()==0){
+    if(!linkTeacherCourse.containsKey(teacherId)){
       throw new AssignmentMissingException();
+    }else{
+      if(!linkTeacherCourse.get(teacherId).containsKey(courseId)){
+        throw new AssignmentMissingException();
+      }
     }
   }
   
   private void ensureAssignmentDoesNotExist(Integer teacherId,Integer courseId) throws AssignmentDuplicateException{
-    if(selectTeacherCourses(teacherId).filter(assignment->assignment.getCourseId().equals(courseId)).count()>0){
-      throw new AssignmentDuplicateException();
+    if(linkTeacherCourse.containsKey(teacherId)){
+      if(linkTeacherCourse.get(teacherId).containsKey(courseId)){
+        throw new AssignmentDuplicateException();
+      }
     }
   }
   
   public void createTeacher(Integer id,String name,String email,String phone) throws TeacherDuplicateException{
     ensureTeacherDoesNotExist(id);
+    teachers.put(id, new TeacherRecord(id,name,email,phone));
   }
   
   public void deleteTeacher(Integer id) throws TeacherMissingException{
     ensureTeacherExists(id);
+    teachers.remove(id);
+    linkTeacherCourse.remove(id);
   }
   
   public TeacherRecord selectTeacher(Integer id) throws TeacherMissingException{
     ensureTeacherExists(id);
+    return teachers.get(id);
   }
   
   public List<TeacherRecord> selectTeachers(){
-    
+    return (List<TeacherRecord>) teachers.values();
   }
   
   public void linkTeacherCourse(Integer teacherId,Integer courseId) throws AssignmentDuplicateException, CourseMissingException, TeacherMissingException{
     ensureTeacherExists(teacherId);
     ensureCourseExists(courseId);
     ensureAssignmentDoesNotExist(teacherId,courseId);
+    if(!linkTeacherCourse.containsKey(teacherId)){
+      linkTeacherCourse.put(teacherId,new HashMap<Integer,AssignmentRecord>());
+    }
+    linkTeacherCourse.get(teacherId).put(courseId,new AssignmentRecord(courseId));
   }
   
   public void unlinkTeacherCourse(Integer teacherId,Integer courseId) throws AssignmentMissingException, CourseMissingException, TeacherMissingException{
     ensureTeacherExists(teacherId);
     ensureCourseExists(courseId);
     ensureAssignmentExists(teacherId, courseId);
+    linkTeacherCourse.get(teacherId).remove(courseId);
+    
   }
   
-  public Stream<AssignmentRecord> selectTeacherCourses(Integer id) throws TeacherMissingException{
+  public List<AssignmentRecord> selectTeacherCourses(Integer id) throws TeacherMissingException{
     ensureTeacherExists(id);
     
   }
