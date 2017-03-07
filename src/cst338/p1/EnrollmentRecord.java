@@ -9,6 +9,9 @@ public class EnrollmentRecord {
   public Double getScore(){
     return score;
   }
+  public Integer getCourseId(){
+    return courseId;
+  }
   public void setScore(Double score){
     this.score=score;
   }

@@ -20,9 +20,65 @@ public class Database {
   private final Map<Integer, StudentRecord> students;
   private final Map<Integer, TeacherRecord> teachers;
   private final Map<Integer, CourseRecord> courses;
-  private final Map<Integer, List<Integer>> linkStudentCourse;
-  private final Map<Integer, List<Integer>> linkTeacherCourse;
+  private final Map<Integer, List<EnrollmentRecord>> linkStudentCourse;
+  private final Map<Integer, List<AssignmentRecord>> linkTeacherCourse;
 
+  private void ensureTeacherExists(Integer id) throws TeacherMissingException{
+    if(!teachers.containsKey(id)){
+      throw new TeacherMissingException();
+    }
+  }
+  private void ensureTeacherDoesNotExist(Integer id) throws TeacherDuplicateException{
+    if(teachers.containsKey(id)){
+      throw new TeacherDuplicateException();
+    }
+  }
+  private void ensureCourseExists(Integer id) throws CourseMissingException{
+    if(!courses.containsKey(id)){
+      throw new CourseMissingException();
+    }
+  }
+  private void ensureCourseDoesNotExist(Integer id) throws CourseDuplicateException{
+    if(courses.containsKey(id)){
+      throw new CourseDuplicateException();
+    }
+  }
+  
+  private void ensureStudentExists(Integer id) throws StudentMissingException{
+    if(!students.containsKey(id)){
+      throw new StudentMissingException();
+    }
+  }
+  
+  private void ensureStudentDoesNotExist(Integer id) throws StudentDuplicateException{
+    if(students.containsKey(id)){
+      throw new StudentDuplicateException()
+    }
+  }
+  
+  private void ensureEnrollmentExists(Integer studentId,Integer courseId) throws EnrollmentMissingException{
+    if(selectStudentCourses(studentId).filter(enrollment->enrollment.getCourseId().equals(courseId)).count()==0){
+      throw new EnrollmentMissingException();
+    }
+  }
+  
+  private void ensureEnrollmentDoesNotExist(Integer studentId,Integer courseId) throws EnrollmentDuplicateException{
+    if(selectStudentCourses(studentId).filter(enrollment->enrollment.getCourseId().equals(courseId)).count()>0){
+      throw new EnrollmentDuplicateException();
+    }
+  }
+  
+  private void ensureAssignmentExists(Integer teacherId,Integer courseId) throws AssignmentMissingException{
+    if(selectTeacherCourses(teacherId).filter(assignment->assignment.getCourseId().equals(courseId)).count()==0){
+      throw new AssignmentMissingException();
+    }
+  }
+  
+  private void ensureAssignmentDoesNotExist(Integer teacherId,Integer courseId) throws AssignmentDuplicateException{
+    if(selectTeacherCourses(teacherId).filter(assignment->assignment.getCourseId().equals(courseId)).count()>0){
+      throw new AssignmentDuplicateException();
+    }
+  }
   
   public void createTeacher(Integer id,String name,String email,String phone){
     
@@ -48,7 +104,7 @@ public class Database {
     
   }
   
-  public Stream<Integer> selectTeacherCourses(Integer id){
+  public Stream<AssignmentRecord> selectTeacherCourses(Integer id){
     
   }
   
