@@ -32,21 +32,21 @@ public class School {
       DataFile file=DataFile.load(path);
       for(TeacherRecord teacher:file.getTeacherStream().collect(Collectors.toList())){
         try{
-          database.createTeacher(teacher);
+          database.createTeacher(teacher.getId(),teacher.getName(),teacher.getEmail(),teacher.getPhone());
         }catch(EntityDuplicateException ex){
           System.out.println("Instructor info reading failed - Employee number "+teacher.getId()+" already used.");
         }
       }
       for(CourseRecord course:file.getClassStream().collect(Collectors.toList())){
         try{
-          database.createCourse(course);
+          database.createCourse(course.getId(),course.getTitle(),course.getCapacity(),course.getLocation());
         }catch(EntityDuplicateException ex){
           System.out.println("Course info reading failed - Course ID "+course.getId()+" already used.");
         }
       }
       for(StudentRecord student:file.getStudentStream().collect(Collectors.toList())){
         try{
-          database.createStudent(student);
+          database.createStudent(student.getId(),student.getName());
         }catch(EntityDuplicateException ex){
           System.out.println("Student info reading failed - Student ID "+student.getId()+" already used.");
         }
@@ -56,6 +56,7 @@ public class School {
     } catch (IOException e) {
       System.out.println("Error importing data from \"" + path + "\"");
       e.printStackTrace();
+      throw new RuntimeException(e);
     }
     System.out.println("Done.");
   }
