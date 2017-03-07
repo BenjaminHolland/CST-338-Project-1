@@ -29,30 +29,35 @@ public class School {
   //
   public void readData(String path) {
     try {
-      DataFile file=DataFile.load(path);
-      for(TeacherRecord teacher:file.getTeacherStream().collect(Collectors.toList())){
-        try{
-          database.createTeacher(teacher.getId(),teacher.getName(),teacher.getEmail(),teacher.getPhone());
-        }catch(TeacherDuplicateException ex){
-          System.out.println("Instructor info reading failed - Employee number "+teacher.getId()+" already used.");
+      DataFile file = DataFile.load(path);
+      for (TeacherRecord teacher : file.getTeacherStream().collect(Collectors.toList())) {
+        try {
+          database.createTeacher(teacher.getId(), teacher.getName(), teacher.getEmail(),
+              teacher.getPhone());
+        } catch (TeacherDuplicateException ex) {
+          System.out.println("Instructor info reading failed - Employee number " + teacher.getId()
+              + " already used.");
         }
       }
-      for(CourseRecord course:file.getClassStream().collect(Collectors.toList())){
-        try{
-          database.createCourse(course.getId(),course.getTitle(),course.getCapacity(),course.getLocation());
-        }catch(CourseDuplicateException ex){
-          System.out.println("Course info reading failed - Course ID "+course.getId()+" already used.");
+      for (CourseRecord course : file.getClassStream().collect(Collectors.toList())) {
+        try {
+          database.createCourse(course.getId(), course.getTitle(), course.getCapacity(),
+              course.getLocation());
+        } catch (CourseDuplicateException ex) {
+          System.out.println(
+              "Course info reading failed - Course ID " + course.getId() + " already used.");
         }
       }
-      for(StudentRecord student:file.getStudentStream().collect(Collectors.toList())){
-        try{
-          database.createStudent(student.getId(),student.getName());
-        }catch(StudentDuplicateException ex){
-          System.out.println("Student info reading failed - Student ID "+student.getId()+" already used.");
+      for (StudentRecord student : file.getStudentStream().collect(Collectors.toList())) {
+        try {
+          database.createStudent(student.getId(), student.getName());
+        } catch (StudentDuplicateException ex) {
+          System.out.println(
+              "Student info reading failed - Student ID " + student.getId() + " already used.");
         }
       }
-      
-      
+
+
     } catch (IOException e) {
       System.out.println("Error importing data from \"" + path + "\"");
       e.printStackTrace();
@@ -63,48 +68,57 @@ public class School {
 
 
   public void searchByEmail(String email) {
-    //Print "Search key: [email]\n"
-    //If Has Result:
-    //For each teacher in result, print 
-    //  "\tEmployee Number: [teacher.id]\n"
-    //  "\tName: [teacher.name]\n"
-    //  "\tPhone: [teacher.phone]\n"
-    //  "\n
-    //If No result
-    //Print "\tNo employee with email [email]\n"
-    
+    // Print "Search key: [email]\n"
+    // If Has Result:
+    // For each teacher in result, print
+    // "\tEmployee Number: [teacher.id]\n"
+    // "\tName: [teacher.name]\n"
+    // "\tPhone: [teacher.phone]\n"
+    // "\n
+    // If No result
+    // Print "\tNo employee with email [email]\n"
+
   }
 
-  public void addInstructor(Integer id, String name, String email, String phone) throws TeacherDuplicateException {
-    try{  
-    database.createTeacher(id, name, email, phone);
-    }catch(TeacherDuplicateException ex){
-      System.out.println("Course addition failed - Teacher number "+id+" already used.");
+  public void addInstructor(Integer id, String name, String email, String phone)
+      throws TeacherDuplicateException {
+    try {
+      database.createTeacher(id, name, email, phone);
+    } catch (TeacherDuplicateException ex) {
+      System.out.println("Course addition failed - Teacher number " + id + " already used.");
     }
   }
 
   public void addCourse(Integer id, String name, Integer capacity, String location) {
-    try{
+    try {
+      // Add course to database.
       database.createCourse(id, name, capacity, location);
-    }catch(CourseDuplicateException ex){
-      System.out.println("Course addition failed - Course number "+id+" already used.");
+    } catch (CourseDuplicateException ex) {
+
+      // If Failed
+      // Print "Course addition failed - Course number [id] already used.
+      System.out.println("Course addition failed - Course number " + id + " already used.");
     }
-    //Add course to database. 
-    //If Failed
-    //Print "Course addition failed - Course number [id] already used.
+
+
   }
 
   public void addStudent(Integer id, String name) {
-    //Add Student to database
-    //If failed
-    //Print "Student addtion failed - Student number [id] already used.
-    try{
+
+    try {
+      // Add Student to database
       database.createStudent(id, name);
-    }catch(StudentDuplicateException ex){
-      System.out.println("Student addition failed -Student number "+id+" already used.");
+    } catch (StudentDuplicateException ex) {
+      // If failed
+      // Print "Student addtion failed - Student number [id] already used.
+      System.out.println("Student addition failed -Student number " + id + " already used.");
     }
   }
 
+  // TODO: Find out if only one teacher can be assigned to a course.
+  // TODO: Step 1: Read Handout
+  // TODO: Step 2: Email Teacher
+  // TODO: Step 3: Implement changes if needed.
   public void assignInstructor(Integer courseId, Integer teacherId) {
     try {
       database.linkTeacherCourse(teacherId, courseId);
@@ -132,7 +146,7 @@ public class School {
     } catch (StudentMissingException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    }catch(CourseFullException e){
+    } catch (CourseFullException e) {
       e.printStackTrace();
     }
   }
@@ -152,106 +166,118 @@ public class School {
     }
   }
 
-  
-  
+
+
   public void graduateStudent(Integer studentId) {
-    
+
   }
 
   public void putScore(Integer courseId, Integer studentId, Double score) {
-    
+
     EnrollmentRecord record;
     try {
+      // Attempt to assign score to student in class
+
       record = database.selectStudentCourse(studentId, courseId);
       record.setScore(score);
     } catch (EnrollmentMissingException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      // If student is not enrolled in class
+      try {
+        StudentRecord student = database.selectStudent(studentId);
+
+        // Print "Student [studentId] ([student.name]) is not enrolled in [classId]"
+        // TODO: Check to make sure there's no period at the end of this.
+        System.out.println("Student " + student.getId() + " " + student.getName()
+            + " is not enrolled in " + courseId);
+      } catch (StudentMissingException ex) {
+        throw new RuntimeException(
+            "Assertion Failure - Enrollment Check Occured Before Student Check", ex);
+      }
+
     } catch (CourseMissingException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      // If class doesn't exist.
+      // Print "Score assignment failed - Course [classId] does not exist.
+      System.out.println("Score assignment failed - Course " + courseId + " does not exist.");
+
     } catch (StudentMissingException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+
+      // If student doesn't exist.
+      // Print "Score assignment failed - Student [studentId] does not exist.
+      System.out.println("Score assignment failed - Student " + studentId + "does not exist.");
+
     }
-    
-    //Attempt to assign score to student in class
-    //If class doesn't exist.
-    //Print "Score assignment failed - Course [classId] does not exist.
-    //Else if student doesn't exist.
-    //Print "Score assignment failed - Student [studentId] does not exist.
-    //Else if student is not enrolled in class
-    //Print "Student [studentId] ([student.name]) is not enrolled in [classId]"
-    
+
+
+
   }
 
   public void schoolInfo() {
-    
-    //Print "School Name: [name]\n"
+
+    // Print "School Name: [name]\n"
     System.out.println(name);
-    //Print "Instructor Information\n"
+    // Print "Instructor Information\n"
     System.out.println("Instructor Information");
-    //For each teacher, print "\t[teacher.name]\n"
-    for(TeacherRecord teacher:database.selectTeachers()){
-      System.out.println("\t"+teacher.getName());
+    // For each teacher, print "\t[teacher.name]\n"
+    for (TeacherRecord teacher : database.selectTeachers()) {
+      System.out.println("\t" + teacher.getName());
     }
-    //Print "Course Information\n"
+    // Print "Course Information\n"
     System.out.println("Course Information");
-    //For each course, print "\t[course.name]\n"
-    for(CourseRecord course:database.selectCourses()){
-      System.out.println("\t"+course.getTitle());
+    // For each course, print "\t[course.name]\n"
+    for (CourseRecord course : database.selectCourses()) {
+      System.out.println("\t" + course.getTitle());
     }
-    //Print "Student Information\n"
+    // Print "Student Information\n"
     System.out.println("Student Information");
-    //For each student, print "\t[student.name]\n"
-    for(StudentRecord student:database.selectStudents()){
-      System.out.println("\t"+student.getName());
+    // For each student, print "\t[student.name]\n"
+    for (StudentRecord student : database.selectStudents()) {
+      System.out.println("\t" + student.getName());
     }
   }
-  
+
   public void courseInfo() {
-    //TODO: Implement.
+    // TODO: Implement.
   }
-  
+
   public void courseInfo(Integer courseId) {
-      try{
-      CourseRecord record=database.selectCourse(courseId);
-      List<StudentRecord> enrolled=database.selectCourseStudents(courseId);
-      List<TeacherRecord> teaching=database.selectCourseTeachers(courseId);
-      List<Double> scores=new ArrayList<>();
-      for(StudentRecord student:enrolled){
-        EnrollmentRecord enrollment=database.selectStudentCourse(student.getId(), courseId);
+    try {
+      CourseRecord record = database.selectCourse(courseId);
+      List<StudentRecord> enrolled = database.selectCourseStudents(courseId);
+      List<TeacherRecord> teaching = database.selectCourseTeachers(courseId);
+      List<Double> scores = new ArrayList<>();
+      for (StudentRecord student : enrolled) {
+        EnrollmentRecord enrollment = database.selectStudentCourse(student.getId(), courseId);
         scores.add(enrollment.getScore());
       }
-      Double average=scores.stream().collect(Collectors.averagingDouble(value->value));
-      
-      //Print Line "Course Number: [course.id]"
-      System.out.println("Course Number: "+record.getId());
-      //Print Line "Instructor: [teachers for class.name seperated by ', ']"
+      Double average = scores.stream().collect(Collectors.averagingDouble(value -> value));
+
+      // Print Line "Course Number: [course.id]"
+      System.out.println("Course Number: " + record.getId());
+      // Print Line "Instructor: [teachers for class.name seperated by ', ']"
       System.out.print("Instructor: ");
-      StringJoiner joiner=new StringJoiner(",");
-      
-      for(TeacherRecord teacher:teaching){
+      StringJoiner joiner = new StringJoiner(",");
+
+      for (TeacherRecord teacher : teaching) {
         joiner.add(teacher.getName());
       }
       System.out.println(joiner.toString());
-      //Print Line "Course Title: [course.title]"
-      System.out.println("Course Title: "+record.getTitle());
-      //Print Line "Room: [course.location]"
-      System.out.println("Room: "+record.getLocation());
-      //Print Line "Total Enrolled: [enrolled student count]"
-      System.out.println("Total Enrolled: "+enrolled.size());
-      //Print Line "Course Average: [average score of enrolled students]"
-      System.out.println("Course Average: "+average);
-      }catch(CourseMissingException ex){
-        //TODO: Print Error message.
-      }catch(EnrollmentMissingException ex){
-        //TODO: Print error message;
-      }catch(StudentMissingException ex){
-        //TODO: Print error message.
-      }
+      // Print Line "Course Title: [course.title]"
+      System.out.println("Course Title: " + record.getTitle());
+      // Print Line "Room: [course.location]"
+      System.out.println("Room: " + record.getLocation());
+      // Print Line "Total Enrolled: [enrolled student count]"
+      System.out.println("Total Enrolled: " + enrolled.size());
+      // Print Line "Course Average: [average score of enrolled students]"
+      System.out.println("Course Average: " + average);
+    } catch (CourseMissingException ex) {
+      // TODO: Print Error message.
+    } catch (EnrollmentMissingException ex) {
+      // TODO: Print error message;
+    } catch (StudentMissingException ex) {
+      // TODO: Print error message.
+    }
   }
-  
+
   public void deleteCourse(Integer courseId) {
     try {
       database.deleteCourse(courseId);
