@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -153,16 +154,47 @@ public class Database {
   
   public void deleteCourse(Integer id) throws CourseMissingException{
     ensureCourseExists(id);
+    List<Integer> emptyAssignments=new ArrayList<>();
+    
+    //Remove class from student enrollment lists.
+    List<Integer> emptyEnrollments=new ArrayList<>();
+    for(Entry<Integer, Map<Integer, EnrollmentRecord>> enrollment:linkStudentCourse.entrySet()){
+      enrollment.getValue().remove(id);
+      if(enrollment.getValue().isEmpty()){
+        emptyEnrollments.add(enrollment.getKey());
+      }
+    }
+    
+    //Remove empty enrollment lists from the tracker.
+    for(Integer emptyId:emptyEnrollments){
+      linkStudentCourse.remove(emptyId);
+    }
+    
+    //Remove course from teacher assignments.
+    for(Entry<Integer,Map<Integer,AssignmentRecord>> assignment:linkTeacherCourse.entrySet()){
+      assignment.getValue().remove(id);
+      if(assignment.getValue().isEmpty()){
+        emptyAssignments.add(assignment.getKey());
+      }
+    }
+    
+    //Remove empty association lists from the tracker.
+    for(Integer emptyId:emptyAssignments){
+      linkTeacherCourse.remove(emptyId);
+    }
+    
+    //remove the course from the course list.
+    courses.remove(id);
    
   }
   
   public CourseRecord selectCourse(Integer id) throws CourseMissingException{
     ensureCourseExists(id);
-    return null;
+    return courses.get(id);
   }
   
   public List<CourseRecord> selectCourses(){
-    return null;
+    return courses.values().stream().collect(Collectors.toList());
   }
   
   public List<TeacherRecord> selectCourseTeachers(Integer courseId) throws CourseMissingException{
