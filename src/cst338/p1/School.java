@@ -84,7 +84,9 @@ public class School {
   }
 
   public void addStudent(Integer id, String name) {
-
+    //Add Student to database
+    //If failed
+    //Print "Student addtion failed - Student number [id] already used.
   }
 
   public void assignInstructor(Integer classId, Integer teacherId) {
