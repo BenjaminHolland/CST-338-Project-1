@@ -109,12 +109,11 @@ public class DatabaseTests {
   public void testCreateStudent_nominal() throws StudentDuplicateException {
     Database db=new Database();
     db.createStudent(100, "Student 1");
-    List<TeacherRecord> teachers=db.selectTeachers();
-    assertEquals(1,teachers.size());
-    assertEquals(Integer.valueOf(100),teachers.get(0).getId());
-    assertEquals("Teacher 1",teachers.get(0).getName());
-    assertEquals("t1@school.edu",teachers.get(0).getEmail());
-    assertEquals("555-123-4567",teachers.get(0).getPhone());
+    List<StudentRecord> students=db.selectStudents();
+    assertEquals(1,students.size());
+    assertEquals(Integer.valueOf(100),students.get(0).getId());
+    assertEquals("Student 1",students.get(0).getName());
+   
   }
 
   @Test
