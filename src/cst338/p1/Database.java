@@ -146,6 +146,13 @@ public class Database {
     }
   }
   
+  public AssignmentRecord selectTeacherCourse(Integer teacherId,Integer courseId) throws TeacherMissingException,CourseMissingException, AssignmentMissingException{
+    ensureTeacherExists(teacherId);
+    ensureCourseExists(courseId);
+    ensureAssignmentExists(teacherId, courseId);
+    return linkTeacherCourse.get(teacherId).get(courseId);
+  }
+  
   
   public void createCourse(Integer id,String title,Integer capacity,String location) throws CourseDuplicateException{
     ensureCourseDoesNotExist(id);

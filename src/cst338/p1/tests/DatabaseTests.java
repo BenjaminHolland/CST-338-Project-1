@@ -255,7 +255,7 @@ public class DatabaseTests {
   public void testUnlinkTeacherCourse_nominal() {
     Database db = new Database();
     db.createCourse(100, "CRS-100 A Class", 10, "ROOM 1");
-    
+    db.createTeacher(200, "A. Teacher", "ateacher@school.edu", "555-123-4567");
     db.linkTeacherCourse(200, 100);
     db.unlinkTeacherCourse(200,100);
     thrown.expect(AssignmentMissingException.class);
