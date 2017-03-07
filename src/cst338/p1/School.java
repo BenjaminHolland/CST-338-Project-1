@@ -246,7 +246,19 @@ public class School {
   }
 
   public void courseInfo() {
-    // TODO: Implement.
+    List<CourseRecord> courses=database.selectCourses();
+    //Print "Number of Courses: [number of courses]"
+    System.out.println("Number of Courses "+courses.size());
+    //For each course
+    for(CourseRecord course:courses){
+    //Print "\t[course.id]: [students enrolled] enrolled"
+      try{
+        List<StudentRecord> students=database.selectCourseStudents(course.getId());
+        System.out.println("\t"+course.getId()+": "+students.size()+" enrolled");
+      }catch(CourseMissingException ex){
+        throw new RuntimeException("Assertion Error: Course Both Does and Does Not Exist.");
+      }
+    }
   }
 
   public void courseInfo(Integer courseId) {
