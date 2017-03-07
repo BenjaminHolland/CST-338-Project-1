@@ -138,33 +138,43 @@ public class Database {
     ensureCourseExists(courseId);
   }
   
-  
   public void createStudent(Integer id,String name) throws StudentDuplicateException{
     ensureStudentDoesNotExist(id);
   }
   
-  public void deleteStudent(Integer id){
+  public void deleteStudent(Integer id) throws StudentMissingException{
     ensureStudentExists(id);
   }
   
   public Optional<StudentRecord> selectStudent(Integer id){
-    return Optional.ofNullable(students.get(studentId));
+    return Optional.ofNullable(students.get(id));
   }
   
   public Stream<StudentRecord> selectStudents(){
     return students.values().stream();
   }
   
-  public void linkStudentCourse(Integer studentId,Integer courseId){
-    
+  public void linkStudentCourse(Integer studentId,Integer courseId) throws EnrollmentDuplicateException, CourseMissingException, StudentMissingException{
+    ensureStudentExists(studentId);
+    ensureCourseExists(courseId);
+    ensureEnrollmentDoesNotExist(studentId, courseId);
   }
   
-  public void unlinkStudentCourse(Integer studentId,Integer courseId){
-    
+  public void unlinkStudentCourse(Integer studentId,Integer courseId) throws EnrollmentMissingException, CourseMissingException, StudentMissingException{
+    ensureStudentExists(studentId);
+    ensureCourseExists(courseId);
+    ensureEnrollmentExists(studentId, courseId);
   }
   
-  public Stream<EnrollmentRecord> selectStudentCourses(Integer id){
-    
+  public Stream<EnrollmentRecord> selectStudentCourses(Integer id) throws StudentMissingException{
+    ensureStudentExists(id);
+  }
+  
+  public EnrollmentRecord selectStudentCourse(Integer studentId,Integer courseId){
+   ensureStudentExists(studentId);
+   ensureCourseExists(courseId);
+   ensureEnrollmentExists(studentId,courseId);
+   
   }
   
     public Database() {
