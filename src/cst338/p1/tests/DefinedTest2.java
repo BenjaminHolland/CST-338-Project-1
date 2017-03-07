@@ -2,6 +2,9 @@ package cst338.p1.tests;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.junit.Test;
 
 import cst338.p1.Course;
@@ -10,11 +13,12 @@ import cst338.p1.School;
 public class DefinedTest2 {
 
   @Test
-  public void test() {
+  public void test() throws IOException {
+    File dataFile=new File("./data/sample_test1.txt");
     School SCD = new School("SCD");
     Course course1;
     System.out.println("===== Read Data =====");
-    SCD.readData("C:\\tmp\\test1.txt");
+    SCD.readData(dataFile.getCanonicalPath());
     SCD.addInstructor(700, "E. Tao", "tao@csumb.edu", "777-777-1234");
     SCD.addCourse(300, "CST300 – ProSem", 70, "BIT 110");
     SCD.addCourse(499, "CST499 – iOS Dev", 15, "BIT 104");

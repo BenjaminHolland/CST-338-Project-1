@@ -140,8 +140,9 @@ public class School {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (TeacherMissingException e) {
+      System.out.println("Instructor "+teacherId+" does not exist.");
       // TODO Auto-generated catch block
-      e.printStackTrace();
+      //e.printStackTrace();
     }
   }
 
@@ -149,14 +150,14 @@ public class School {
     try {
       database.linkStudentCourse(studentId, courseId);
     } catch (EnrollmentDuplicateException e) {
-      // TODO Auto-generated catch block
+      
       e.printStackTrace();
     } catch (CourseMissingException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (StudentMissingException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      System.out.println("Student "+studentId+" does not exist.");
+      //.printStackTrace();
     } catch (CourseFullException e) {
       e.printStackTrace();
     }
