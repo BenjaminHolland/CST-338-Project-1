@@ -1,4 +1,4 @@
-package cst338.p1;
+package cst338.p1.data;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +11,18 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.naming.OperationNotSupportedException;
+
+import cst338.p1.AssignmentDuplicateException;
+import cst338.p1.AssignmentMissingException;
+import cst338.p1.AssignmentRecord;
+import cst338.p1.CourseDuplicateException;
+import cst338.p1.CourseMissingException;
+import cst338.p1.EnrollmentDuplicateException;
+import cst338.p1.EnrollmentMissingException;
+import cst338.p1.StudentDuplicateException;
+import cst338.p1.StudentMissingException;
+import cst338.p1.TeacherDuplicateException;
+import cst338.p1.TeacherMissingException;
 
 
 /**

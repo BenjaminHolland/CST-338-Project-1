@@ -15,19 +15,19 @@ import cst338.p1.AssignmentRecord;
 import cst338.p1.CourseDuplicateException;
 import cst338.p1.CourseFullException;
 import cst338.p1.CourseMissingException;
-import cst338.p1.CourseRecord;
-import cst338.p1.Database;
 import cst338.p1.EnrollmentDuplicateException;
 import cst338.p1.EnrollmentMissingException;
-import cst338.p1.EnrollmentRecord;
 import cst338.p1.EntityDuplicateException;
 import cst338.p1.EntityMissingException;
 import cst338.p1.StudentDuplicateException;
 import cst338.p1.StudentMissingException;
-import cst338.p1.StudentRecord;
 import cst338.p1.TeacherDuplicateException;
 import cst338.p1.TeacherMissingException;
-import cst338.p1.TeacherRecord;
+import cst338.p1.data.CourseRecord;
+import cst338.p1.data.Database;
+import cst338.p1.data.EnrollmentRecord;
+import cst338.p1.data.StudentRecord;
+import cst338.p1.data.TeacherRecord;
 
 public class DatabaseTests {
   @Rule

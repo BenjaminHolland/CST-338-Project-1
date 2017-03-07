@@ -1,5 +1,7 @@
 package cst338.p1;
 
+import cst338.p1.data.Database;
+
 public class Course {
   private Database context;
   private Integer studentId;

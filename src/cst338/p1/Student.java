@@ -3,6 +3,8 @@ package cst338.p1;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import cst338.p1.data.Database;
+
 public class Student {
   private final Database context;
   private final Integer id;

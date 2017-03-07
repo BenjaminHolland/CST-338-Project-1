@@ -1,4 +1,4 @@
-package cst338.p1;
+package cst338.p1.data;
 
 public class EnrollmentRecord {
   private final Integer courseId;

@@ -1,4 +1,4 @@
-package cst338.p1;
+package cst338.p1.data;
 
 import java.io.File;
 import java.io.IOException;
