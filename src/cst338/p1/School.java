@@ -219,15 +219,12 @@ public class School {
       System.out.println("Score assignment failed - Student " + studentId + "does not exist.");
 
     }
-
-
-
   }
 
   public void schoolInfo() {
 
     // Print "School Name: [name]\n"
-    System.out.println(name);
+    System.out.println("School Name: "+name);
     // Print "Instructor Information\n"
     System.out.println("Instructor Information");
     // For each teacher, print "\t[teacher.name]\n"
