@@ -244,6 +244,7 @@ public class Database {
   
   public List<EnrollmentRecord> selectStudentCourses(Integer id) throws StudentMissingException{
     ensureStudentExists(id);
+    
     return null;
   }
   
@@ -251,8 +252,8 @@ public class Database {
    ensureStudentExists(studentId);
    ensureCourseExists(courseId);
    ensureEnrollmentExists(studentId,courseId);
-   return null;
-   
+   return linkStudentCourse.get(studentId).get(courseId);
+  
   }
   
     public Database() {

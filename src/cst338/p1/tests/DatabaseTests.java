@@ -224,7 +224,7 @@ public class DatabaseTests {
     db.linkStudentCourse(200, 100);
     EnrollmentRecord record=db.selectStudentCourse(200, 100);
   }
-  
+ 
   @Test
   public void testUnlinkStudentCourse_nominal() throws CourseDuplicateException, StudentDuplicateException, EnrollmentDuplicateException, CourseMissingException, StudentMissingException, EnrollmentMissingException{
     Database db=new Database();
@@ -234,5 +234,6 @@ public class DatabaseTests {
     db.unlinkStudentCourse(200,100);
     thrown.expect(EnrollmentMissingException.class);
     db.selectStudentCourse(200,100);
-  } 
+  }
+  
 }
