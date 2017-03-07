@@ -15,6 +15,8 @@ import cst338.p1.CourseMissingException;
 import cst338.p1.CourseRecord;
 import cst338.p1.Database;
 import cst338.p1.EnrollmentDuplicateException;
+import cst338.p1.EnrollmentMissingException;
+import cst338.p1.EnrollmentRecord;
 import cst338.p1.EntityDuplicateException;
 import cst338.p1.EntityMissingException;
 import cst338.p1.StudentDuplicateException;
@@ -215,18 +217,22 @@ public class DatabaseTests {
   }
   
   @Test
-  public void testStudentCourseRelationship_nominal() throws CourseDuplicateException, StudentDuplicateException, EnrollmentDuplicateException, CourseMissingException, StudentMissingException{
+  public void testLinkStudentCourse_nominal() throws CourseDuplicateException, StudentDuplicateException, EnrollmentDuplicateException, CourseMissingException, StudentMissingException, EnrollmentMissingException{
     Database db=new Database();
     db.createCourse(100, "CRS-100 A Class", 10,"ROOM 1");
     db.createStudent(200, "A. Student");
     db.linkStudentCourse(200, 100);
     EnrollmentRecord record=db.selectStudentCourse(200, 100);
-    List<StudentRecord> courseStudents=db.selectCourseStudents(100);
-    List<CourseRecords> studentCourses=db.selectStudentCourses(200);
-  }
-  @Test
-  public void testTeacherCourseRelationship(){
-    
   }
   
+  @Test
+  public void testUnlinkStudentCourse_nominal() throws CourseDuplicateException, StudentDuplicateException, EnrollmentDuplicateException, CourseMissingException, StudentMissingException, EnrollmentMissingException{
+    Database db=new Database();
+    db.createCourse(100, "CRS-100 A Class", 10,"ROOM 1");
+    db.createStudent(200, "A. Student");
+    db.linkStudentCourse(200, 100);
+    db.unlinkStudentCourse(200,100);
+    thrown.expect(EnrollmentMissingException.class);
+    db.selectStudentCourse(200,100);
+  } 
 }
