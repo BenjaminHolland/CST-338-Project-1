@@ -90,7 +90,7 @@ public class School {
   }
 
   public void assignInstructor(Integer classId, Integer teacherId) {
-
+    
   }
 
   public void register(Integer classId, Integer studentId) {
@@ -110,7 +110,14 @@ public class School {
   }
 
   public void putScore(Integer classId, Integer studentId, Double score) {
-
+    //Attempt to assign score to student in class
+    //If class doesn't exist.
+    //Print "Score assignment failed - Course [classId] does not exist.
+    //Else if student doesn't exist.
+    //Print "Score assignment failed - Student [studentId] does not exist.
+    //Else if student is not enrolled in class
+    //Print "Student [studentId] ([student.name]) is not enrolled in [classId]"
+    
   }
 
   public void courseInfo(Integer classId) {
