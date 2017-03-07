@@ -128,7 +128,9 @@ public class Database {
     ensureCourseExists(courseId);
     ensureAssignmentExists(teacherId, courseId);
     linkTeacherCourse.get(teacherId).remove(courseId);
-    
+    if(linkTeacherCourse.get(teacherId).isEmpty()){
+      linkTeacherCourse.remove(teacherId);
+    }
   }
   
   public List<AssignmentRecord> selectTeacherCourses(Integer id) throws TeacherMissingException{
