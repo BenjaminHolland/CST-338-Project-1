@@ -237,7 +237,6 @@ public class Database {
 
     // remove the course from the course list.
     courses.remove(id);
-
   }
 
   public CourseRecord selectCourse(Integer id) throws CourseMissingException {
@@ -330,8 +329,11 @@ public class Database {
 
   public List<EnrollmentRecord> selectStudentCourses(Integer id) throws StudentMissingException {
     ensureStudentExists(id);
-
-    return null;
+    if(!linkStudentCourse.containsKey(id)){
+      return new ArrayList<>();
+    }else{
+      return linkStudentCourse.get(id).values().stream().collect(Collectors.toList());
+    }
   }
 
   public EnrollmentRecord selectStudentCourse(Integer studentId, Integer courseId)

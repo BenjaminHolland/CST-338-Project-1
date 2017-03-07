@@ -291,6 +291,7 @@ public class School {
       System.out.println("Total Enrolled: " + enrolled.size());
       // Print Line "Course Average: [average score of enrolled students]"
       System.out.println("Course Average: " + average);
+      System.out.print("\n");
     } catch (CourseMissingException ex) {
       // TODO: Print Error message.
     } catch (EnrollmentMissingException ex) {
