@@ -50,15 +50,7 @@ public class School {
     System.out.println("Done.");
   }
 
-  public void schoolInfo() {
-      //Print "School Name: [name]\n"
-      //Print "Instructor Information\n"
-      //For each teacher, print "\t[teacher.name]\n"
-      //Print "Course Information\n"
-      //For each course, print "\t[course.name]\n"
-      //Print "Student Information\n"
-      //For each student, print "\t[student.name]\n"
-  }
+ 
 
   public void searchByEmail(String email) {
     //Print "Search key: [email]\n"
@@ -101,9 +93,7 @@ public class School {
 
   }
 
-  public StudentRecord getStudent(Integer studentId) {
-    return null;
-  }
+  
 
   public void graduateStudent(Integer studentId) {
 
@@ -120,6 +110,20 @@ public class School {
     
   }
 
+  public void schoolInfo() {
+    //Print "School Name: [name]\n"
+    //Print "Instructor Information\n"
+    //For each teacher, print "\t[teacher.name]\n"
+    //Print "Course Information\n"
+    //For each course, print "\t[course.name]\n"
+    //Print "Student Information\n"
+    //For each student, print "\t[student.name]\n"
+  }
+  
+  public void courseInfo() {
+
+  }
+  
   public void courseInfo(Integer classId) {
     //Print Line "Course Number: [course.id]"
     //Print Line "Instructor: [teachers for class.name seperated by ', ']"
@@ -130,14 +134,20 @@ public class School {
     
     
   }
-
-  public CourseRecord getCourse(Integer classId) {
+  
+  
+  public Student getStudent(Integer studentId) {
     return null;
   }
-
-  public void courseInfo() {
-
+  
+  public Course getCourse(Integer classId) {
+    return null;
   }
-
+  
+  public Teacher getInstructor(Integer instructorId){
+    return null;
+  }
+  
+  
   public void deleteCourse(Integer classId) {}
 }
