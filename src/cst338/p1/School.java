@@ -305,8 +305,11 @@ public class School {
       
       database.deleteCourse(courseId);
     } catch (CourseMissingException e) {
+      
       // TODO Auto-generated catch block
       e.printStackTrace();
+    }catch(CourseNotEmptyException e){
+      System.out.println("Course deletion failed - Enrolled student(s) in the class");
     }
   }
   
