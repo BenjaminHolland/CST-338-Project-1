@@ -221,7 +221,7 @@ public class DatabaseTests {
   @Test
   public void testLinkStudentCourse_nominal()
       throws CourseDuplicateException, StudentDuplicateException, EnrollmentDuplicateException,
-      CourseMissingException, StudentMissingException, EnrollmentMissingException {
+      CourseMissingException, StudentMissingException, EnrollmentMissingException, CourseFullException {
     Database db = new Database();
     db.createCourse(100, "CRS-100 A Class", 10, "ROOM 1");
     db.createStudent(200, "A. Student");
@@ -232,7 +232,7 @@ public class DatabaseTests {
   @Test
   public void testUnlinkStudentCourse_nominal()
       throws CourseDuplicateException, StudentDuplicateException, EnrollmentDuplicateException,
-      CourseMissingException, StudentMissingException, EnrollmentMissingException {
+      CourseMissingException, StudentMissingException, EnrollmentMissingException, CourseFullException {
     Database db = new Database();
     db.createCourse(100, "CRS-100 A Class", 10, "ROOM 1");
     db.createStudent(200, "A. Student");

@@ -132,6 +132,8 @@ public class School {
     } catch (StudentMissingException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
+    }catch(CourseFullException e){
+      e.printStackTrace();
     }
   }
 
