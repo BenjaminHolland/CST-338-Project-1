@@ -113,12 +113,14 @@ public class Database {
     }
   }
 
-  private void ensureCourseIsEmpty(Integer courseId) throws CourseMissingException, CourseNotEmptyException{
-    List<StudentRecord> students=selectCourseStudents(courseId);
-    if(!students.isEmpty()){
+  private void ensureCourseIsEmpty(Integer courseId)
+      throws CourseMissingException, CourseNotEmptyException {
+    List<StudentRecord> students = selectCourseStudents(courseId);
+    if (!students.isEmpty()) {
       throw new CourseNotEmptyException();
     }
   }
+
   private void ensureAssignmentDoesNotExist(Integer teacherId, Integer courseId)
       throws AssignmentDuplicateException {
     if (linkTeacherCourse.containsKey(teacherId)) {
@@ -205,24 +207,18 @@ public class Database {
     ensureCourseExists(id);
     ensureCourseIsEmpty(id);
     /*
-    
-    // Remove class from student enrollment lists.
-    List<Integer> emptyEnrollments = new ArrayList<>();
-    for (Entry<Integer, Map<Integer, EnrollmentRecord>> enrollment : linkStudentCourse.entrySet()) {
-      enrollment.getValue().remove(id);
-      if (enrollment.getValue().isEmpty()) {
-        emptyEnrollments.add(enrollment.getKey());
-      }
-    }
-
-    // Remove empty enrollment lists from the tracker.
-    for (Integer emptyId : emptyEnrollments) {
-      linkStudentCourse.remove(emptyId);
-    }
-*/
+     * 
+     * // Remove class from student enrollment lists. List<Integer> emptyEnrollments = new
+     * ArrayList<>(); for (Entry<Integer, Map<Integer, EnrollmentRecord>> enrollment :
+     * linkStudentCourse.entrySet()) { enrollment.getValue().remove(id); if
+     * (enrollment.getValue().isEmpty()) { emptyEnrollments.add(enrollment.getKey()); } }
+     * 
+     * // Remove empty enrollment lists from the tracker. for (Integer emptyId : emptyEnrollments) {
+     * linkStudentCourse.remove(emptyId); }
+     */
     // Remove course from teacher assignments.
     List<Integer> emptyAssignments = new ArrayList<>();
-    
+
     for (Entry<Integer, Map<Integer, AssignmentRecord>> assignment : linkTeacherCourse.entrySet()) {
       assignment.getValue().remove(id);
       if (assignment.getValue().isEmpty()) {
@@ -250,12 +246,12 @@ public class Database {
 
   public List<TeacherRecord> selectCourseTeachers(Integer courseId) throws CourseMissingException {
     ensureCourseExists(courseId);
-    List<TeacherRecord> teachers=new ArrayList<>();
-    for(Entry<Integer,Map<Integer,AssignmentRecord>> entry:linkTeacherCourse.entrySet()){
-      if(entry.getValue().containsKey(courseId)){
-        try{
+    List<TeacherRecord> teachers = new ArrayList<>();
+    for (Entry<Integer, Map<Integer, AssignmentRecord>> entry : linkTeacherCourse.entrySet()) {
+      if (entry.getValue().containsKey(courseId)) {
+        try {
           teachers.add(selectTeacher(entry.getKey()));
-        }catch(TeacherMissingException ex){
+        } catch (TeacherMissingException ex) {
           throw new RuntimeException("Assertion Failed: Non-Existant Student Enrolled In Class.",
               ex);
         }
@@ -329,9 +325,9 @@ public class Database {
 
   public List<EnrollmentRecord> selectStudentCourses(Integer id) throws StudentMissingException {
     ensureStudentExists(id);
-    if(!linkStudentCourse.containsKey(id)){
+    if (!linkStudentCourse.containsKey(id)) {
       return new ArrayList<>();
-    }else{
+    } else {
       return linkStudentCourse.get(id).values().stream().collect(Collectors.toList());
     }
   }
