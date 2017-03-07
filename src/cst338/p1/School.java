@@ -243,6 +243,7 @@ public class School {
     for (StudentRecord student : database.selectStudents()) {
       System.out.println("\t" + student.getName());
     }
+    System.out.println();
   }
 
   public void courseInfo() {
