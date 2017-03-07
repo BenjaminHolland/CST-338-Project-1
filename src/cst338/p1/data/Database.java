@@ -1,16 +1,11 @@
 package cst338.p1.data;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.naming.OperationNotSupportedException;
 
 import cst338.p1.AssignmentDuplicateException;
 import cst338.p1.AssignmentMissingException;
@@ -130,28 +125,55 @@ public class Database {
     }
   }
 
-
+  /**
+   * Create Teacher
+   * @param id The teachers unique id.
+   * @param name The teachers full name.
+   * @param email The teachers email.
+   * @param phone The teachers phone number.
+   * @throws TeacherDuplicateException If a teacher with a matching id already exists.
+   */
   public void createTeacher(Integer id, String name, String email, String phone)
       throws TeacherDuplicateException {
     ensureTeacherDoesNotExist(id);
     teachers.put(id, new TeacherRecord(id, name, email, phone));
   }
 
+  /**
+   * Delete Teacher
+   * @param id The id of the teacher to delete. 
+   * @throws TeacherMissingException If no teacher with @param id exists. 
+   */
   public void deleteTeacher(Integer id) throws TeacherMissingException {
     ensureTeacherExists(id);
     teachers.remove(id);
     linkTeacherCourse.remove(id);
   }
 
+  /**
+   * Read Teacher
+   * @param id The id of the teacher to retrieve. 
+   * @return The teacher with the given @param id
+   * @throws TeacherMissingException If no teacher with @param id exists;
+   */
   public TeacherRecord selectTeacher(Integer id) throws TeacherMissingException {
     ensureTeacherExists(id);
     return teachers.get(id);
   }
 
+  /**
+   * Read Teachers
+   * @return A list of teachers. 
+   */
   public List<TeacherRecord> selectTeachers() {
     return (List<TeacherRecord>) teachers.values().stream().collect(Collectors.toList());
   }
 
+  /**
+   * Find Teachers By Email.
+   * @param email The address to match.
+   * @return A list of teachers with matching email addresses.
+   */
   public List<TeacherRecord> selectTeachersByEmail(String email) {
     return teachers.values().stream().filter(teacher -> teacher.getEmail().equals(email))
         .collect(Collectors.toList());
