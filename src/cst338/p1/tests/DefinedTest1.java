@@ -18,11 +18,11 @@ public class DefinedTest1 {
     File data2=new File("./data/sample_test2.txt");
     
     School SCD = new School("SCD");
-    System.out.println("===== Read Data 1 =====");
+    System.out.println("\n===== Read Data 1 =====");
     SCD.readData(data1.getCanonicalPath().toString());
     System.out.println("\n===== School Info 1 =====");
     SCD.schoolInfo();
-    System.out.println("===== Read Data 2 =====");
+    System.out.println("\n===== Read Data 2 =====");
     SCD.readData(data2.getCanonicalPath().toString());
     System.out.println("\n===== School Info 2 =====");
     SCD.schoolInfo();

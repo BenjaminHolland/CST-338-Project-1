@@ -17,7 +17,7 @@ public class DefinedTest2 {
     File dataFile=new File("./data/sample_test1.txt");
     School SCD = new School("SCD");
     Course course1;
-    System.out.println("===== Read Data =====");
+    System.out.println("\n===== Read Data =====");
     SCD.readData(dataFile.getCanonicalPath());
     SCD.addInstructor(700, "E. Tao", "tao@csumb.edu", "777-777-1234");
     SCD.addCourse(300, "CST300 – ProSem", 70, "BIT 110");
