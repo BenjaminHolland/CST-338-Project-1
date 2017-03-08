@@ -9,8 +9,12 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import cst338.p1.CourseDuplicateException;
+import cst338.p1.CourseFullException;
 import cst338.p1.CourseMissingException;
 import cst338.p1.CourseNotEmptyException;
+import cst338.p1.EnrollmentDuplicateException;
+import cst338.p1.StudentDuplicateException;
+import cst338.p1.StudentMissingException;
 import cst338.p1.data.CourseRecord;
 import cst338.p1.data.Database;
 
@@ -70,5 +74,18 @@ public class DatabaseCourseTests {
     thrown.expect(CourseMissingException.class);
     db.selectCourse(100);
   }
+  
+  @Test
+  public void ensureExceptionOnDeleteWithEnrolledStudents() throws CourseMissingException, CourseNotEmptyException, EnrollmentDuplicateException, StudentMissingException, CourseFullException, CourseDuplicateException, StudentDuplicateException{
+    Database db=new Database();
+    db.createStudent(100,"Student");
+    db.createCourse(100,"100 - A Course", 1,"ROOM 1");
+    db.linkStudentCourse(100,100);
+    thrown.expect(CourseNotEmptyException.class);
+    db.deleteCourse(100);
+    fail("Should have thrown exception.");
+  }
+  
+  
 
 }
