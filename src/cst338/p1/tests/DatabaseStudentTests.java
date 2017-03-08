@@ -31,7 +31,7 @@ public class DatabaseStudentTests {
   }
 
   @Test
-  public void ensureExceptionOnCreateWithDuplicateId() throws StudentDuplicateException {
+  public void ensureExceptionOnCreateWithDuplicate() throws StudentDuplicateException {
     Database db = new Database();
 
     db.createStudent(100, "Student 1");
@@ -46,8 +46,8 @@ public class DatabaseStudentTests {
     Database db = new Database();
     db.createStudent(100, "Student 1");
     db.deleteStudent(100);
-    List<TeacherRecord> teachers = db.selectTeachers();
-    assertEquals(0, teachers.size());
+    List<StudentRecord> students = db.selectStudents();
+    assertEquals(0, students.size());
 
   }
 

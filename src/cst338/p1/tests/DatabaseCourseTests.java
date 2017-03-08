@@ -26,6 +26,7 @@ public class DatabaseCourseTests {
     Database db = new Database();
     db.createCourse(100, "CRS-100 A Course", 10, "ROOM 1");
     List<CourseRecord> courses = db.selectCourses();
+    
     assertEquals(1, courses.size());
     assertEquals(Integer.valueOf(100), courses.get(0).getId());
     assertEquals("CRS-100 A Course", courses.get(0).getTitle());
