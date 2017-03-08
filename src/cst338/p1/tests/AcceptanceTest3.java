@@ -16,7 +16,7 @@ public class AcceptanceTest3 {
     Instructor instructor1;
     Student student1;
     System.out.println("===== Read Data =====");
-    SCD.readData("C:\\tmp\\test1.txt");
+    SCD.readData("./data/sample_test1.txt");
     SCD.assignInstructor (306,200);
     SCD.assignInstructor (205,200);
     SCD.addStudent(5555, "Chris Watson");

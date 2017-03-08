@@ -224,10 +224,26 @@ public class Database {
     ensureTeacherExists(teacherId);
     ensureCourseExists(courseId);
     ensureAssignmentDoesNotExist(teacherId, courseId);
-    if (!linkTeacherCourse.containsKey(teacherId)) {
-      linkTeacherCourse.put(teacherId, new HashMap<Integer, AssignmentRecord>());
+    //Hack in assignment overwrite.
+    try{
+      List<TeacherRecord> currentTeacher=selectCourseTeachers(courseId);
+      if(currentTeacher.isEmpty()){
+        if (!linkTeacherCourse.containsKey(teacherId)) {
+          linkTeacherCourse.put(teacherId, new HashMap<Integer, AssignmentRecord>());
+        }
+        linkTeacherCourse.get(teacherId).put(courseId, new AssignmentRecord(courseId)); 
+      }else{
+        unlinkTeacherCourse(currentTeacher.get(0).getId(),courseId);
+        if (!linkTeacherCourse.containsKey(teacherId)) {
+          linkTeacherCourse.put(teacherId, new HashMap<Integer, AssignmentRecord>());
+        }
+        linkTeacherCourse.get(teacherId).put(courseId, new AssignmentRecord(courseId));
+
+      }
+    }catch(Exception e){
+      e.printStackTrace();
     }
-    linkTeacherCourse.get(teacherId).put(courseId, new AssignmentRecord(courseId));
+    
   }
 
   /**

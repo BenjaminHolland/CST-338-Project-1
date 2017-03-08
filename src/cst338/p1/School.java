@@ -325,9 +325,17 @@ public class School {
   }
   
   public Instructor getInstructor(Integer id){
-    return null;
+    if(database.doesTeacherExist(id)){
+      return new Instructor(this.database,id); 
+    }else{
+      return null;
+    }
   }
-  public Instructor getStudent(Integer id){
-    return null;
+  public Student getStudent(Integer id){
+    if(database.doesStudentExist(id)){
+      return new Student(this.database,id);
+    }else{
+      return null;
+    }
   }
 }
