@@ -225,7 +225,7 @@ public class Database {
   public List<AssignmentRecord> selectTeacherCourses(Integer id) throws TeacherMissingException {
     ensureTeacherExists(id);
     if (linkTeacherCourse.containsKey(id)) {
-      return (List<AssignmentRecord>) linkTeacherCourse.get(id).values();
+      return linkTeacherCourse.get(id).values().stream().collect(Collectors.toList());
     } else {
       return new ArrayList<>();
     }

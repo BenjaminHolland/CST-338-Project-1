@@ -108,6 +108,7 @@ public class DatabaseTests {
   }
 
 
+  
 
   @Test
   public void testCreateStudent_nominal() throws StudentDuplicateException {
@@ -265,5 +266,19 @@ public class DatabaseTests {
     db.unlinkTeacherCourse(200, 100);
     thrown.expect(AssignmentMissingException.class);
     db.selectTeacherCourse(200, 100);
+  }
+  
+  @Test
+  public void testCourseDeletionTeacherAssignemntHandling() throws CourseDuplicateException, TeacherMissingException, AssignmentDuplicateException, CourseMissingException, TeacherDuplicateException, CourseNotEmptyException{
+    Database db=new Database();
+    db.createCourse(100,"CRS-100 A Class", 10,"ROOM 1");
+    db.createCourse(101, "CRS-101 B Class", 10,"ROOM 2");
+    db.createTeacher(1000, "A. Teacher","ateacher@school.edu", "555-000-0000");
+    db.linkTeacherCourse(1000, 100);
+    db.linkTeacherCourse(1000, 101);
+    db.deleteCourse(100);
+    List<AssignmentRecord> assignedCourses=db.selectTeacherCourses(1000);
+    assertEquals(1,assignedCourses.size());
+    assertEquals(Integer.valueOf(101),assignedCourses.get(0).getCourseId());
   }
 }
