@@ -31,7 +31,7 @@ public class Database {
   private final Map<Integer, CourseRecord> courses;
   private final Map<Integer, Map<Integer, EnrollmentRecord>> linkStudentCourse;
   private final Map<Integer, Map<Integer, AssignmentRecord>> linkTeacherCourse;
-
+  
   private void ensureTeacherExists(Integer id) throws TeacherMissingException {
     if (!teachers.containsKey(id)) {
       throw new TeacherMissingException();
