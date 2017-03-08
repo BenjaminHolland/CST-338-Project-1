@@ -323,4 +323,11 @@ public class School {
       throw new RuntimeException(ex);
     }
   }
+  
+  public Instructor getInstructor(Integer id){
+    return null;
+  }
+  public Instructor getStudent(Integer id){
+    return null;
+  }
 }
