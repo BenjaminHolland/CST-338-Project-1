@@ -1,5 +1,4 @@
 package cst338.p1.data;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,12 +19,12 @@ import cst338.p1.StudentMissingException;
 import cst338.p1.TeacherDuplicateException;
 import cst338.p1.TeacherMissingException;
 
-
 /**
  * Educational Database.
  * 
  * @author Benjamin Represents a database that tracks the required entities
  */
+
 public class Database {
   private final Map<Integer, StudentRecord> students;
   private final Map<Integer, TeacherRecord> teachers;
@@ -179,6 +178,14 @@ public class Database {
         .collect(Collectors.toList());
   }
 
+  /**
+   * Assign Teacher To Course.
+   * @param teacherId The teachers id
+   * @param courseId The courses id.
+   * @throws AssignmentDuplicateException If the teacher is already assigned to the course.
+   * @throws CourseMissingException If the course does not exist.
+   * @throws TeacherMissingException If the teacher does not exist.
+   */
   public void linkTeacherCourse(Integer teacherId, Integer courseId)
       throws AssignmentDuplicateException, CourseMissingException, TeacherMissingException {
     ensureTeacherExists(teacherId);
@@ -190,6 +197,14 @@ public class Database {
     linkTeacherCourse.get(teacherId).put(courseId, new AssignmentRecord(courseId));
   }
 
+  /**
+   * Removes a course from a teachers workload.
+   * @param teacherId The teachers id.
+   * @param courseId the courses id.
+   * @throws AssignmentMissingException If the teacher is not assigned to the class.
+   * @throws CourseMissingException If the course does not exist.
+   * @throws TeacherMissingException If the teacher does not exist.
+   */
   public void unlinkTeacherCourse(Integer teacherId, Integer courseId)
       throws AssignmentMissingException, CourseMissingException, TeacherMissingException {
     ensureTeacherExists(teacherId);
@@ -201,6 +216,12 @@ public class Database {
     }
   }
 
+  /**
+   * Read courses assigned to a teacher.
+   * @param id The id of the teacher to query.
+   * @return A list containing the courses the teacher is assigned to.
+   * @throws TeacherMissingException If the teacher does not exist.
+   */
   public List<AssignmentRecord> selectTeacherCourses(Integer id) throws TeacherMissingException {
     ensureTeacherExists(id);
     if (linkTeacherCourse.containsKey(id)) {
@@ -210,6 +231,15 @@ public class Database {
     }
   }
 
+  /**
+   * Read Teacher Assignment Record.
+   * @param teacherId The assigned teacher.
+   * @param courseId The course assigned to.
+   * @return An assignment record.
+   * @throws TeacherMissingException If the teacher does not exist.
+   * @throws CourseMissingException If the course does not exist.
+   * @throws AssignmentMissingException If the teacher is not assigned to the course.
+   */
   public AssignmentRecord selectTeacherCourse(Integer teacherId, Integer courseId)
       throws TeacherMissingException, CourseMissingException, AssignmentMissingException {
     ensureTeacherExists(teacherId);
@@ -218,13 +248,27 @@ public class Database {
     return linkTeacherCourse.get(teacherId).get(courseId);
   }
 
-
+  /**
+   * Creates a course
+   * @param id The unique id of the course.
+   * @param title The title of the course.
+   * @param capacity The maximum number of students that the course can have.
+   * @param location The location of the course.
+   * @throws CourseDuplicateException If a course with the same id already exists.
+   */
   public void createCourse(Integer id, String title, Integer capacity, String location)
       throws CourseDuplicateException {
     ensureCourseDoesNotExist(id);
     courses.put(id, new CourseRecord(id, title, capacity, location));
   }
 
+ 
+  /**
+   * Deletes a course. 
+   * @param id The id of the course to delete.
+   * @throws CourseMissingException if the course 
+   * @throws CourseNotEmptyException if the course has students still enrolled.
+   */
   public void deleteCourse(Integer id) throws CourseMissingException, CourseNotEmptyException {
     ensureCourseExists(id);
     ensureCourseIsEmpty(id);
@@ -257,15 +301,31 @@ public class Database {
     courses.remove(id);
   }
 
+  /**
+   * Read Course Record.
+   * @param id The id of the course to retrieve. 
+   * @return The course record with the matching id.
+   * @throws CourseMissingException If no course with a matching id exists.
+   */
   public CourseRecord selectCourse(Integer id) throws CourseMissingException {
     ensureCourseExists(id);
     return courses.get(id);
   }
 
+  /**
+   * Read Courses.
+   * @return A list of courses.
+   */
   public List<CourseRecord> selectCourses() {
     return courses.values().stream().collect(Collectors.toList());
   }
 
+  /**
+   * Read Teachers assigned to a course.
+   * @param courseId The course to query.
+   * @return A list of teachers that teach that course.
+   * @throws CourseMissingException If the course does not exist.
+   */
   public List<TeacherRecord> selectCourseTeachers(Integer courseId) throws CourseMissingException {
     ensureCourseExists(courseId);
     List<TeacherRecord> teachers = new ArrayList<>();
@@ -282,6 +342,12 @@ public class Database {
     return teachers;
   }
 
+  /**
+   * Read Students Enrolled In A Course.
+   * @param courseId the id of the course to query.
+   * @return A list of students enrolled in the class.
+   * @throws CourseMissingException If the class does not exist.
+   */
   public List<StudentRecord> selectCourseStudents(Integer courseId) throws CourseMissingException {
     ensureCourseExists(courseId);
     List<StudentRecord> enrolled = new ArrayList<>();
@@ -298,6 +364,12 @@ public class Database {
     return enrolled;
   }
 
+  /**
+   * Create a new student.
+   * @param id The unique id of the student.
+   * @param name The name of the student. 
+   * @throws StudentDuplicateException If a student with that name already exists.
+   */
   public void createStudent(Integer id, String name) throws StudentDuplicateException {
     ensureStudentDoesNotExist(id);
     students.put(id, new StudentRecord(id, name));
