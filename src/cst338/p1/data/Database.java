@@ -32,6 +32,39 @@ public class Database {
   private final Map<Integer, Map<Integer, EnrollmentRecord>> linkStudentCourse;
   private final Map<Integer, Map<Integer, AssignmentRecord>> linkTeacherCourse;
   
+  public Boolean doesTeacherExist(Integer id){
+    return teachers.containsKey(id);
+  }
+  public Boolean doesStudentExist(Integer id){
+    return students.containsKey(id);
+  }
+  public Boolean doesCourseExist(Integer id){
+    return courses.containsKey(id);
+  }
+  public Boolean doesAssignmentExist(Integer teacherId,Integer courseId){
+    if(doesTeacherExist(teacherId)){
+      if(doesCourseExist(courseId)){
+        if(linkTeacherCourse.containsKey(teacherId)){
+          if(linkTeacherCourse.get(teacherId).containsKey(courseId)){
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+  public Boolean doesEnrollmentExist(Integer studentId,Integer courseId){
+    if(doesStudentExist(studentId)){
+      if(doesCourseExist(courseId)){
+        if(linkStudentCourse.containsKey(studentId)){
+          if(linkStudentCourse.get(studentId).containsKey(courseId)){
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
   private void ensureTeacherExists(Integer id) throws TeacherMissingException {
     if (!teachers.containsKey(id)) {
       throw new TeacherMissingException();
