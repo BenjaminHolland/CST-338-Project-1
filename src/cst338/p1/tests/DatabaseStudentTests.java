@@ -52,7 +52,7 @@ public class DatabaseStudentTests {
   }
 
   @Test
-  public void ensureExceptionOnDeleteWithMissingId() throws StudentMissingException {
+  public void ensureExceptionOnDeleteWithMissing() throws StudentMissingException {
     Database db = new Database();
     thrown.expect(StudentMissingException.class);
     db.deleteStudent(100);
@@ -69,7 +69,7 @@ public class DatabaseStudentTests {
   }
 
   @Test
-  public void ensureExceptionOnReadSingleWithMissingId() throws StudentMissingException {
+  public void ensureExceptionOnReadSingleWithMissing() throws StudentMissingException {
     Database db = new Database();
     thrown.expect(StudentMissingException.class);
     db.selectStudent(100);

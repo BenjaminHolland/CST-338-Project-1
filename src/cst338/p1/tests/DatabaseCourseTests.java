@@ -49,14 +49,14 @@ public class DatabaseCourseTests {
   }
 
   @Test
-  public void ensureExceptionOnDeleteWithMissingId() throws CourseMissingException, CourseNotEmptyException {
+  public void ensureExceptionOnDeleteWithMissing() throws CourseMissingException, CourseNotEmptyException {
     Database db = new Database();
     thrown.expect(CourseMissingException.class);
     db.deleteCourse(100);
   }
 
   @Test
-  public void ensureCorrectOnSelectSingle() throws CourseDuplicateException, CourseMissingException {
+  public void ensureCorrectOnReadSingle() throws CourseDuplicateException, CourseMissingException {
     Database db = new Database();
     db.createCourse(100, "CRS-100 A Course", 10, "ROOM 1");
     CourseRecord record = db.selectCourse(100);

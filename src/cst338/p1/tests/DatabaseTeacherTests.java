@@ -26,7 +26,7 @@ public class DatabaseTeacherTests {
   }
  
   @Test
-  public void ensureExceptionOnCreateWithDuplicateId() throws TeacherDuplicateException{
+  public void ensureExceptionOnCreateWithDuplicate() throws TeacherDuplicateException{
     Database db=new Database();
     db.createTeacher(100, "A. Teacher", "ateacher@school.edu", "555-000-0000");
     thrown.expect(TeacherDuplicateException.class);
@@ -65,7 +65,7 @@ public class DatabaseTeacherTests {
     assertEquals(Integer.valueOf(100),record.getId());
   }
   @Test
-  public void ensureExceptionOnReadSingleWithMissingId() throws TeacherMissingException{
+  public void ensureExceptionOnReadSingleWithMissing() throws TeacherMissingException{
     Database db=new Database();
     thrown.expect(TeacherMissingException.class);
     TeacherRecord recor=db.selectTeacher(100);
