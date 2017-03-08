@@ -69,9 +69,9 @@ public class DatabaseTeacherCourseLinkageTests {
   }
 
   @Test
-  public void ensureExceptionOnAssignedIfMissingCourse()
-      throws TeacherDuplicateException, EnrollmentDuplicateException, CourseMissingException,
-      StudentMissingException, CourseFullException, AssignmentDuplicateException, TeacherMissingException {
+  public void ensureExceptionOnAssignedIfMissingCourse() throws TeacherDuplicateException,
+      EnrollmentDuplicateException, CourseMissingException, StudentMissingException,
+      CourseFullException, AssignmentDuplicateException, TeacherMissingException {
     Database db = new Database();
     db.createTeacher(100, "A", "email", "phone");
     thrown.expect(CourseMissingException.class);
@@ -172,24 +172,8 @@ public class DatabaseTeacherCourseLinkageTests {
     db.linkTeacherCourse(100, 2000);
     db.linkTeacherCourse(101, 2000);
     db.linkTeacherCourse(102, 2000);
-    db.unlinkTeacherCourse(102, 2000);
-    db.unlinkTeacherCourse(101, 2000);
     db.linkTeacherCourse(101, 2000);
     List<TeacherRecord> teachers = db.selectCourseTeachers(2000);
-    Map<Integer, Boolean> expectedRecords = new HashMap<>();
-    expectedRecords.put(100, false);
-    expectedRecords.put(101, false);
-    for (TeacherRecord teacher : teachers) {
-      if (expectedRecords.containsKey(teacher.getId())) {
-        expectedRecords.put(teacher.getId(), true);
-      } else {
-        fail("Unexpected enrollment.");
-      }
-    }
-    for (Entry<Integer, Boolean> entry : expectedRecords.entrySet()) {
-      if (!entry.getValue()) {
-        fail("Missing class for teacher " + entry.getKey());
-      }
-    }
+    assertEquals(Integer.valueOf(101), teachers.get(0).getId());
   }
 }
