@@ -65,7 +65,7 @@ public class DatabaseTeacherTests {
     assertEquals(Integer.valueOf(100),record.getId());
   }
   @Test
-  public void ensureExceptionOnReadWithMissingId() throws TeacherMissingException{
+  public void ensureExceptionOnReadSingleWithMissingId() throws TeacherMissingException{
     Database db=new Database();
     thrown.expect(TeacherMissingException.class);
     TeacherRecord recor=db.selectTeacher(100);
