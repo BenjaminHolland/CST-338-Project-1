@@ -35,7 +35,7 @@ public class Instructor {
         try {
           CourseRecord course = context.selectCourse(assignment.getCourseId());
           List<StudentRecord> enrolled = context.selectCourseStudents(course.getId());
-          bldr.append("\t" + course.getId() + ": " + enrolled.size() + "\n");
+          bldr.append("\t" + course.getId() + ": " + enrolled.size() + " enrolled\n");
         } catch (CourseMissingException e) {
           throw new RuntimeException("Assertion Failure: Course both does and does not exist.", e);
         }

@@ -324,12 +324,19 @@ public class School {
     }
   }
   
-  public Instructor getInstructor(Integer id){
-    if(database.doesTeacherExist(id)){
-      return new Instructor(this.database,id); 
-    }else{
+  public Instructor getInstructor(Integer courseId){
+    try{
+      List<TeacherRecord> teachers=database.selectCourseTeachers(courseId);
+      if(teachers.isEmpty()){
+        System.out.println("Query failed - course has no assigned teacher. NOTE: UNDEFINED BEHAVIOR.");
+        return null;
+      }else{
+        return new Instructor(database,teachers.get(0).getId());
+      }
+    }catch(CourseMissingException e){
+      System.out.println("Query failed - course "+courseId+" does not exist. NOTE: UNDEFINED BEHAVIOR.");
       return null;
-    }
+    } 
   }
   public Student getStudent(Integer id){
     if(database.doesStudentExist(id)){
