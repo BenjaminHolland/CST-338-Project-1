@@ -26,5 +26,9 @@ While I feel like this project is, for the most part, relativly well structured 
 
 3. Integers are used as primary keys when accessing the database. This can cause confusion to a caller as to what exactly is expected. There are two alternatives: Make separate strongly typed key classes for each entity, or use incomplete entities as keys. While I considered both of these, I decided ultimately to go with integer keys for simplicity, and to match the design documents specifications. With more time, I'd probably choose to use incomplete records as keys. Though my first instinct is to make strongly typed key objects, this doubles the number of required classes, and the method doesn't scale well. 
 
+4. The use of exceptions seems...odd. Since every constraint failure in the database throws it's own type of exception, it seems like it clutters up the project with exception class definitions. Throw in that most exceptions must be delcared on the prototype and either handled or declared on callers, and I've made a system that seems overly verbose when it comes to error states. I'm not entirely sure how to solve this problem, either, as the reading i've done indicate that error codes are generally considered bad practice (in java). I've done some work by making more general constraint failure exceptions, which should lower the workload on the caller, but pollutes the project even further. I could extend each method to take some sort of error tracking object that could be checked after each call, but this just seems like an advanced error code. Adding constraint specifics to each general exception is another option, but that increases the workload of the caller, requiring them to switch on the type of entity referred to. 
+
+
+
 
 
