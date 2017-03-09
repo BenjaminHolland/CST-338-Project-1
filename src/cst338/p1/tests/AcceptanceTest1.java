@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import cst338.p1.School;
 
-public class DefinedTest1 {
+public class AcceptanceTest1 {
 
   //TODO: Fix spacing anomonly after recieving instructions from instructor.
   @Test

@@ -10,7 +10,7 @@ import org.junit.Test;
 import cst338.p1.Course;
 import cst338.p1.School;
 
-public class DefinedTest2 {
+public class AcceptanceTest2 {
 
   @Test
   public void test() throws IOException {

@@ -42,8 +42,7 @@ public class Instructor {
       }
       return bldr.toString();
     } catch (TeacherMissingException e) {
-      throw new RuntimeException(
-          "UNDEFINED BEHAVIOR: Teacher info queried after teacher removed from database.", e);
+      return "No Instructor Information. NOTE: UNDEFINED BEHAVIOR";
     }
 
   }

@@ -153,13 +153,14 @@ public class School {
       
       e.printStackTrace();
     } catch (CourseMissingException e) {
+      
       // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (StudentMissingException e) {
       System.out.println("Student "+studentId+" does not exist.");
-      //.printStackTrace();
+      
     } catch (CourseFullException e) {
-      e.printStackTrace();
+      System.out.println("Registration failed - Class is full.\n");
     }
   }
 
@@ -181,7 +182,11 @@ public class School {
 
 
   public void graduateStudent(Integer studentId) {
-
+    try{
+      database.deleteStudent(studentId);
+    }catch(StudentMissingException e){
+      System.out.println("Graduation failed - student "+studentId+" does not exist. NOTE: UNDEFINED BEHAVIOR.");
+    }
   }
 
   public void putScore(Integer courseId, Integer studentId, Double score) {
@@ -329,20 +334,16 @@ public class School {
       List<TeacherRecord> teachers=database.selectCourseTeachers(courseId);
       if(teachers.isEmpty()){
         System.out.println("Query failed - course has no assigned teacher. NOTE: UNDEFINED BEHAVIOR.");
-        return null;
-      }else{
-        return new Instructor(database,teachers.get(0).getId());
       }
+      return new Instructor(database,teachers.get(0).getId());  
     }catch(CourseMissingException e){
       System.out.println("Query failed - course "+courseId+" does not exist. NOTE: UNDEFINED BEHAVIOR.");
       return null;
     } 
+    
   }
   public Student getStudent(Integer id){
-    if(database.doesStudentExist(id)){
-      return new Student(this.database,id);
-    }else{
-      return null;
+    return new Student(this.database,id); 
     }
-  }
+  
 }
