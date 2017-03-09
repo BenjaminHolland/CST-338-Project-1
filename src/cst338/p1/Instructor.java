@@ -1,5 +1,12 @@
 package cst338.p1;
-
+/*
+ * Title: Project 1
+ * 
+ * Abstract: Educational Database System. 
+ * Author: Benjamin Holland.
+ * ID: 4338
+ * Creation Date: 3/1/2017;
+ */
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,5 +1,12 @@
 package cst338.p1;
-
+/*
+ * Title: Project 1
+ * 
+ * Abstract: Educational Database System. 
+ * Author: Benjamin Holland.
+ * ID: 4338
+ * Creation Date: 3/1/2017;
+ */
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -353,8 +360,8 @@ public class School {
       System.out.println("Query failed - course "+courseId+" does not exist. NOTE: UNDEFINED BEHAVIOR.");
       return null;
     } 
-    
   }
+  
   public Student getStudent(Integer id){
     return new Student(this.database,id); 
     }
