@@ -13,6 +13,14 @@ import cst338.p1.data.EnrollmentRecord;
 import cst338.p1.data.StudentRecord;
 import cst338.p1.data.TeacherRecord;
 
+/**
+ * School
+ * <p>Implicitly defined by the design document.</p>
+ * <p>This class, and all non-standard classes it produces, are minimalistic wrappers around the underlying database and associated objects. They are intended to provide only the functionality defined in the design document and no more.</p>
+ * <p> When an error state that has not been defined by the design document is encountered, an attempt is made to continue if there is an analogous error state that does have handling behavior defined.  </p>
+ * @author Benjamin
+ * 
+ */
 public class School {
   private final Database database;
   private final String name;
@@ -26,7 +34,12 @@ public class School {
     this.database = new Database();
   }
 
-  //
+  /**
+   * Reads data from a file.
+   * <p>Explicitly defined by the design document</p>
+   * <p>The format of the file is defined by the design document. Improperly formatted documents are not supported. Failure to open the specified file will result in a runtime exception.</p>
+   * @param path The path to the data file to read data from. 
+   */
   public void readData(String path) {
     try {
       DataFile file = DataFile.load(path);
@@ -67,7 +80,7 @@ public class School {
   }
 
 
-  public void searchByEmail(String email) {
+   public void searchByEmail(String email) {
     // Print "Search key: [email]\n"
     System.out.println("Search key: " + email);
     List<TeacherRecord> teachersWithMatchingEmail = database.selectTeachersByEmail(email);
